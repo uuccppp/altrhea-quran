@@ -16,16 +16,28 @@
             --accent-color: #fbbf24;
             --text-dark: #1f2937;
             --bg-light: #f3f4f6;
+            --card-bg: #ffffff;
+            --border-color: #eee;
         }
-        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; }
+
+        /* تنسيق الوضع الليلي */
+        body.dark-mode {
+            --primary-color: #34d399; /* أخضر فاتح لليلي */
+            --text-dark: #f9fafb;
+            --bg-light: #111827; /* خلفية داكنة جداً */
+            --card-bg: #1f2937; /* خلفية الكروت داكنة */
+            --border-color: #374151;
+        }
+
+        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; transition: background 0.3s, color 0.3s; }
         
         body::before {
             content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80%; height: 60%; background: url('1768411699920.png') center/contain no-repeat;
-            opacity: 0.05; z-index: -1;
+            opacity: 0.05; z-index: -1; pointer-events: none;
         }
 
-        header { background-color: var(--primary-color); color: white; padding: 20px; text-align: center; position: relative; }
+        header { background-color: #047857; color: white; padding: 20px; text-align: center; position: relative; }
         header h1 { margin: 0; font-family: 'Amiri', serif; }
 
         .video-container {
@@ -35,50 +47,68 @@
         }
         .video-container video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ✨ تنسيق شريط الآيات الجديد ✨ */
+        /* زر الوضع الليلي */
+        .theme-toggle {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+            color: white; padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 1.2rem;
+            transition: 0.3s; z-index: 1001;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.4); }
+
         .verse-ticker {
-            font-family: 'Amiri', serif;
-            color: var(--accent-color); /* لون ذهبي */
-            font-size: 1.1rem;
-            margin-top: 10px;
-            min-height: 30px; /* لحجز مكان للنص */
-            transition: opacity 1.5s ease-in-out; /* حركة ظهور واختفاء ناعمة */
-            opacity: 0; /* مخفي افتراضياً */
+            font-family: 'Amiri', serif; color: var(--accent-color); font-size: 1.1rem;
+            margin-top: 10px; min-height: 30px; transition: opacity 1.5s ease-in-out; opacity: 0;
         }
         .verse-ticker.visible { opacity: 1; }
 
         .nav-container {
-            background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;
+            background: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;
             display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-            position: sticky; top: 0; z-index: 100;
+            position: sticky; top: 0; z-index: 100; transition: background 0.3s;
         }
 
         .nav-btn {
             background: none; border: 2px solid var(--primary-color); color: var(--primary-color);
             padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;
         }
-        .nav-btn.active { background-color: var(--primary-color); color: white; }
+        .nav-btn.active, .nav-btn:hover { background-color: var(--primary-color); color: (body.dark-mode ? #000 : white); }
+        /* تصحيح لون النص داخل الزر النشط في الوضع الليلي */
+        body:not(.dark-mode) .nav-btn.active { color: white; }
+        body.dark-mode .nav-btn.active { color: #111827; font-weight: 800; }
 
         .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
         .page-section { display: none; animation: fadeIn 0.5s; }
         .page-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card { background: var(--card-bg); padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: background 0.3s; }
         .clickable { cursor: pointer; border-right: 4px solid var(--accent-color); }
         
-        .winner-list { display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; border: 1px dashed var(--primary-color); }
+        .winner-list { display: none; margin-top: 10px; padding: 10px; background: rgba(4, 120, 87, 0.1); border-radius: 8px; border: 1px dashed var(--primary-color); }
 
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 10px; }
-        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
-        th { background-color: var(--primary-color); color: white; }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; margin-top: 10px; }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        th { background-color: var(--primary-color); color: #fff; } /* لون النص في الهيدر أبيض دائما */
+        body.dark-mode th { color: #111827; } /* لون النص داكن في الوضع الليلي للهيدر */
 
-        .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
+        .group-title { background: var(--border-color); padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
+
+        /* تنسيقات حاسبة الختم */
+        .calc-btn {
+            display: block; width: 100%; margin: 5px 0; padding: 12px;
+            background: var(--bg-light); border: 2px solid var(--border-color);
+            border-radius: 8px; color: var(--text-dark); cursor: pointer; font-size: 1rem;
+            transition: 0.2s; text-align: center;
+        }
+        .calc-btn:hover, .calc-btn.selected { border-color: var(--primary-color); background: rgba(4, 120, 87, 0.05); }
+        .calc-input { width: 90%; padding: 10px; margin: 10px 0; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit; background: var(--bg-light); color: var(--text-dark); }
+        .calc-result { background: rgba(251, 191, 36, 0.1); border: 2px solid var(--accent-color); padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; }
 
         .poetic-text {
-            text-align: center; line-height: 2; color: #374151; font-size: 1.05rem;
-            background: linear-gradient(to bottom, #ffffff, #f9fafb); padding: 20px;
-            border-radius: 15px; border: 1px solid #e5e7eb; margin-bottom: 20px;
+            text-align: center; line-height: 2; color: var(--text-dark); font-size: 1.05rem;
+            background: linear-gradient(to bottom, var(--card-bg), var(--bg-light)); padding: 20px;
+            border-radius: 15px; border: 1px solid var(--border-color); margin-bottom: 20px;
         }
         .quran-verse { color: var(--primary-color); font-family: 'Amiri', serif; font-size: 1.4rem; margin-top: 15px; display: block; }
 
@@ -102,6 +132,7 @@
 <body>
 
     <header>
+        <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ نهاري</button>
         <div class="video-container">
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
@@ -122,9 +153,35 @@
             <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
             <div class="card" style="border-right: 4px solid var(--accent-color);">
                 <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "سنام القرآن"؟</p>
-                <div style="background: #fffbeb; padding: 10px; border-radius: 8px;">
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 10px; border-radius: 8px;">
                     <strong>🏆 الفائز السابق:</strong> <span style="color: var(--primary-color);">عمر بن علي باوزير</span>
                 </div>
+            </div>
+        </div>
+
+        <div id="section-student" class="page-section">
+            <h2 style="color:var(--primary-color)">📖 ركن الطالب</h2>
+            
+            <div class="card">
+                <h3 style="margin-top:0;">🚀 خطة ختمي للقرآن</h3>
+                <p>حاسبة ذكية تساعدك لمعرفة متى ستختم القرآن بإذن الله.</p>
+                
+                <div id="calc-step-1">
+                    <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
+                    <div id="days-options"></div>
+                </div>
+
+                <div id="calc-step-2" style="display:none;">
+                    <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
+                    <div id="amount-options"></div>
+                    <div id="custom-amount-div" style="display:none;">
+                        <input type="number" id="custom-pages" class="calc-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
+                        <button class="nav-btn" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
+                    </div>
+                </div>
+
+                <div id="calc-result" class="calc-result" style="display:none;"></div>
+                <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
             </div>
         </div>
 
@@ -167,20 +224,7 @@
                 حيث لا يُحفظ القرآن بالألسنة فقط،<br>
                 بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
                 نؤمن أن القرآن هو الحياة،<br>
-                هو النور حين تشتد العتمة،<br>
-                وهو الثبات حين تتقاذف الفتن القلوب،<br>
-                ومن أجله نغرس في أبنائنا حبّه قبل أن نطالبهم بحفظه.<br><br>
-                في حلقاتنا لا نعدّ الصفحات، بل نصنع أثرًا،<br>
-                ولا نبحث عن سرعة الحفظ، بل عن حفظٍ راسخٍ يُثمر عملاً وأخلاقًا.<br><br>
-                نسير بمنهجٍ تربويٍّ واعٍ<br>
-                قائم على التدرّج، والتلقين الصحيح، والمراجعة المستمرة،<br>
-                بإشراف معلمين حملوا القرآن علمًا وعملاً،<br>
-                وفي بيئة إيمانية تشبه المساجد الأولى…<br>
-                صفاءً، وطمأنينة، وهيبةً لكلام الله.<br><br>
-                غايتنا أن يخرج من بيننا جيلٌ يعرف طريقه،<br>
-                يرفع القرآن في صدره، ويحمله في سلوكه، ويشهد له قبل أن يشهد به.<br><br>
-                لسنا حلقة تحفيظ فحسب، بل مسيرة إيمان،<br>
-                وبداية عهدٍ مع كتاب الله لا ينقطع.<br><br>
+                وهو النور حين تشتد العتمة...<br><br>
                 <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
                 ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
             </div>
@@ -206,6 +250,15 @@
     <footer>جميع الحقوق محفوظة © 2026</footer>
 
     <script>
+        // === منطق الوضع الليلي ===
+        let isDarkMode = false;
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('theme-btn');
+            btn.innerText = isDarkMode ? "🌙 ليلي" : "☀️ نهاري";
+        }
+
         const siteData = {
             news: [
                 { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
@@ -236,6 +289,7 @@
             { id: 'home', text: '🏠 الرئيسية' },
             { id: 'ranks', text: '🏆 الأوائل' },
             { id: 'schedule', text: '📅 الجداول' },
+            { id: 'student', text: '📖 ركن الطالب' }, // الزر الجديد
             { id: 'teachers', text: '👨‍🏫 المعلمون' },
             { id: 'about', text: 'ℹ️ من نحن' },
             { id: 'mobile', text: '📱 الجوال' }
@@ -256,7 +310,95 @@
         });
         navContainer.firstChild.classList.add('active');
 
-        // الأخبار
+        // === منطق حاسبة الختم ===
+        let selectedDays = 0;
+        
+        // توليد أزرار الأيام
+        const daysOptionsDiv = document.getElementById('days-options');
+        const daysList = [
+            {v: 1, t: "يوم واحد"}, {v: 2, t: "يومان"}, {v: 3, t: "3 أيام"}, 
+            {v: 4, t: "4 أيام"}, {v: 5, t: "5 أيام"}, {v: 6, t: "6 أيام"}, {v: 7, t: "يومياً (7 أيام)"}
+        ];
+        daysList.forEach(d => {
+            const btn = document.createElement('button');
+            btn.className = 'calc-btn'; btn.innerText = d.t;
+            btn.onclick = () => {
+                selectedDays = d.v;
+                document.getElementById('calc-step-1').style.display = 'none';
+                document.getElementById('calc-step-2').style.display = 'block';
+            };
+            daysOptionsDiv.appendChild(btn);
+        });
+
+        // توليد أزرار الكمية
+        const amountOptionsDiv = document.getElementById('amount-options');
+        const amountsList = [
+            {v: 0.5, t: "نصف صفحة"}, {v: 1, t: "صفحة واحدة"}, {v: 2, t: "صفحتان"}, 
+            {v: 3, t: "3 صفحات"}, {v: 20, t: "جزء كامل (20 صفحة)"}
+        ];
+        amountsList.forEach(a => {
+            const btn = document.createElement('button');
+            btn.className = 'calc-btn'; btn.innerText = a.t;
+            btn.onclick = () => calculatePlan(a.v);
+            amountOptionsDiv.appendChild(btn);
+        });
+        
+        // زر "رقم آخر"
+        const customBtn = document.createElement('button');
+        customBtn.className = 'calc-btn'; customBtn.innerText = "✏️ رقم آخر";
+        customBtn.onclick = () => document.getElementById('custom-amount-div').style.display = 'block';
+        amountOptionsDiv.appendChild(customBtn);
+
+        function calculatePlan(pagesPerDay) {
+            pagesPerDay = parseFloat(pagesPerDay);
+            if(!pagesPerDay || pagesPerDay <= 0) return alert("الرجاء إدخال رقم صحيح");
+
+            const totalPages = 604;
+            const weeklyPages = selectedDays * pagesPerDay;
+            const weeksNeeded = totalPages / weeklyPages;
+            const totalDaysNeeded = Math.ceil(weeksNeeded * 7);
+            
+            // تحويل للأشهر والسنوات
+            let durationText = "";
+            if (totalDaysNeeded < 30) {
+                durationText = `${totalDaysNeeded} يوم`;
+            } else if (totalDaysNeeded < 365) {
+                const months = Math.floor(totalDaysNeeded / 30);
+                const days = totalDaysNeeded % 30;
+                durationText = `${months} شهر و ${days} يوم`;
+            } else {
+                const years = Math.floor(totalDaysNeeded / 365);
+                const months = Math.floor((totalDaysNeeded % 365) / 30);
+                durationText = `${years} سنة و ${months} شهر`;
+            }
+
+            const resultDiv = document.getElementById('calc-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>🎉 النتيجة المتوقعة</h3>
+                <p>معدل الحفظ الأسبوعي: <strong>${weeklyPages} صفحات</strong></p>
+                <p style="font-size:1.2rem; color:var(--primary-color); font-weight:bold;">
+                    ستختم القرآن كاملاً بإذن الله خلال:<br>
+                    ⏳ ${durationText}
+                </p>
+                <p style="font-size:0.9rem; color:gray">استعن بالله ولا تعجز 💪</p>
+            `;
+            
+            document.getElementById('calc-step-2').style.display = 'none';
+            document.getElementById('reset-calc').style.display = 'block';
+        }
+
+        function resetCalc() {
+            selectedDays = 0;
+            document.getElementById('calc-result').style.display = 'none';
+            document.getElementById('reset-calc').style.display = 'none';
+            document.getElementById('calc-step-2').style.display = 'none';
+            document.getElementById('custom-amount-div').style.display = 'none';
+            document.getElementById('calc-step-1').style.display = 'block';
+            document.getElementById('custom-pages').value = '';
+        }
+
+        // بقية السكريبت (الأخبار، الأوائل، الجداول...)
         siteData.news.forEach(n => {
             document.getElementById('news-list').innerHTML += `
                 <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
@@ -269,13 +411,11 @@
             if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
 
-        // الأوائل
         siteData.ranks.forEach(r => {
             let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
             document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
         });
 
-        // الجداول
         function createTable(ringName, baseTime, isEvening) {
             let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
             let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
@@ -303,9 +443,6 @@
             document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
         });
 
-        // ==========================================
-        // ✨ كود الآيات القرآنية (الجديد) ✨
-        // ==========================================
         const verses = [
             "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾",
             "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾",
@@ -315,43 +452,17 @@
             "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ ﴾", "﴿ إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ ﴾", "﴿ وَاللَّهُ خَيْرُ الْحَافِظِينَ ﴾",
             "﴿ وَهُوَ أَرْحَمُ الرَّاحِمِينَ ﴾", "﴿ فَاذْكُرُونِي أَذْكُرْكُمْ ﴾", "﴿ وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ ﴾",
             "﴿ إِنَّ اللَّهَ نِعِمَّا يَعِظُكُم بِهِ ﴾", "﴿ وَاللَّهُ يَهْدِي مَن يَشَاءُ ﴾", "﴿ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ ﴾",
-            "﴿ وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾", "﴿ وَمَا عِندَ اللَّهِ خَيْرٌ وَأَبْقَىٰ ﴾", "﴿ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ﴾",
-            "﴿ إِنَّ اللَّهَ كَانَ بِكُمْ رَحِيمًا ﴾", "﴿ وَاللَّهُ غَالِبٌ عَلَىٰ أَمْرِهِ ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ ﴾",
-            "﴿ وَاللَّهُ يُحِبُّ الصَّابِرِينَ ﴾", "﴿ وَمَا تَشَاءُونَ إِلَّا أَن يَشَاءَ اللَّهُ ﴾", "﴿ إِنَّ اللَّهَ لَطِيفٌ خَبِيرٌ ﴾",
-            "﴿ وَاللَّهُ وَلِيُّ الْمُؤْمِنِينَ ﴾", "﴿ وَتَوَكَّلْ عَلَى اللَّهِ ﴾", "﴿ حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ ﴾",
-            "﴿ إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ ﴾", "﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ﴾", "﴿ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾",
-            "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ ﴾", "﴿ وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ ﴾", "﴿ إِنَّ اللَّهَ بَالِغُ أَمْرِهِ ﴾",
-            "﴿ وَاللَّهُ عَلِيمٌ حَكِيمٌ ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ ﴾", "﴿ وَاذْكُرِ اسْمَ رَبِّكَ ﴾",
-            "﴿ وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ﴾", "﴿ إِنَّ اللَّهَ مَعَنَا ﴾", "﴿ وَاللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ ﴾",
-            "﴿ نِعْمَ أَجْرُ الْعَامِلِينَ ﴾", "﴿ وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ ﴾", "﴿ سَلَامٌ قَوْلًا مِّن رَّبٍّ رَّحِيمٍ ﴾",
-            "﴿ وَمَا اللَّهُ بِغَافِلٍ عَمَّا تَعْمَلُونَ ﴾", "﴿ إِنَّ اللَّهَ خَيْرُ الرَّازِقِينَ ﴾", "﴿ وَاللَّهُ أَعْلَمُ بِمَا فِي الصُّدُورِ ﴾",
-            "﴿ فَاللَّهُ خَيْرٌ حَافِظًا ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُقْسِطِينَ ﴾", "﴿ وَاللَّهُ يُؤْتِي فَضْلَهُ مَن يَشَاءُ ﴾",
-            "﴿ وَاللَّهُ ذُو فَضْلٍ عَظِيمٍ ﴾", "﴿ إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ ﴾", "﴿ وَقُلِ الْحَقُّ مِن رَّبِّكُمْ ﴾",
-            "﴿ وَاللَّهُ أَكْبَرُ ﴾"
+            "﴿ وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾", "﴿ وَمَا عِندَ اللَّهِ خَيْرٌ وَأَبْقَىٰ ﴾", "﴿ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ﴾"
         ];
-
         const verseDisplay = document.getElementById('verse-display');
-
         function showRandomVerse() {
-            // 1. اختيار آية عشوائية
             const randomVerse = verses[Math.floor(Math.random() * verses.length)];
             verseDisplay.innerText = randomVerse;
-            
-            // 2. إظهار الآية (Fade In)
             verseDisplay.classList.add('visible');
-
-            // 3. الانتظار 8 ثوانٍ ثم الإخفاء
-            setTimeout(() => {
-                verseDisplay.classList.remove('visible');
-            }, 8000);
+            setTimeout(() => { verseDisplay.classList.remove('visible'); }, 8000);
         }
-
-        // تشغيل أول مرة مباشرة
         showRandomVerse();
-
-        // تكرار العملية: 8 ثوان ظهور + 30 ثانية اختفاء = 38 ثانية الدورة الكاملة
         setInterval(showRandomVerse, 38000);
-
     </script>
 </body>
 </html>
