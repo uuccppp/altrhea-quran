@@ -35,7 +35,6 @@
         }
         .video-container video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* شريط الآيات في الهيدر */
         .verse-ticker {
             font-family: 'Amiri', serif; color: var(--accent-color); font-size: 1.1rem;
             margin-top: 10px; min-height: 30px; transition: opacity 1.5s ease-in-out; opacity: 0;
@@ -70,53 +69,38 @@
 
         .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
 
-        /* === تنسيقات قسم الطالب الجديد === */
-        
-        /* 1. بطاقة وقفة مع آية */
-        .verse-card-box {
-            background: linear-gradient(135deg, #047857, #065f46);
-            color: white; padding: 25px; border-radius: 15px; text-align: center;
-            margin-bottom: 30px; position: relative; overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        /* === تنسيقات تفاصيل الحلقات (المستعادة) === */
+        details {
+            background: white; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;
         }
-        .verse-card-box::before {
-            content: "✨"; position: absolute; top: 10px; right: 10px; font-size: 2rem; opacity: 0.2;
+        summary {
+            padding: 15px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; background: #fff; list-style: none;
         }
-        .verse-text-large {
-            font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 1.8; margin-bottom: 15px;
-        }
-        .refresh-btn {
-            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
-            color: white; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .refresh-btn:hover { background: white; color: var(--primary-color); }
+        summary::after { content: "🔽"; font-size: 0.8rem; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        details[open] summary { background-color: var(--bg-light); color: var(--primary-color); }
+        .ring-content { padding: 15px; border-top: 1px solid #eee; font-size: 0.95rem; line-height: 1.6; }
 
-        /* 2. المصحف والبحث */
-        .quran-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;
+        /* === تنسيقات بوابة الطالب الشاملة === */
+        .quran-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; overflow-x: auto; }
+        .quran-tab { padding: 8px 15px; border: none; background: none; cursor: pointer; font-weight: bold; color: #666; white-space: nowrap; }
+        .quran-tab.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
+
+        .quran-content-section { display: none; }
+        .quran-content-section.active { display: block; }
+
+        /* شبكة السور والأجزاء */
+        .quran-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .quran-item { 
+            background: white; padding: 15px; text-align: center; border-radius: 8px; border: 1px solid #eee; cursor: pointer; transition: 0.3s;
         }
-        .surah-card {
-            background: white; padding: 10px; border-radius: 8px; text-align: center;
-            border: 1px solid #eee; transition: 0.3s; cursor: pointer;
-        }
-        .surah-card:hover { border-color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .surah-num {
-            background: var(--bg-light); color: var(--primary-color); width: 30px; height: 30px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 5px; font-weight: bold; font-size: 0.9rem;
-        }
-        .surah-name { font-family: 'Amiri', serif; font-size: 1.2rem; font-weight: bold; }
-        .surah-info { font-size: 0.8rem; color: #666; margin-top: 5px; }
+        .quran-item:hover { border-color: var(--primary-color); background: #f0fdf4; }
         
-        .search-container { position: relative; margin-bottom: 20px; }
-        .search-box {
-            width: 100%; padding: 15px; padding-right: 45px; border: 2px solid #ddd; 
-            border-radius: 12px; font-family: 'Cairo', sans-serif; box-sizing: border-box; font-size: 1rem;
-            transition: 0.3s;
-        }
-        .search-box:focus { border-color: var(--primary-color); outline: none; }
-        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #999; }
+        /* شريط التقدم */
+        .progress-container { background: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .progress-bar-bg { width: 100%; height: 20px; background: #e5e7eb; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--accent-color); width: 0%; transition: 1s; }
+        .stat-box { display: flex; justify-content: space-around; margin-top: 15px; }
 
         .poetic-text {
             text-align: center; line-height: 2; color: #374151; font-size: 1.05rem;
@@ -150,7 +134,6 @@
         </div>
         <h1>حلقات الثريا</h1>
         <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
-        
         <div id="verse-display" class="verse-ticker"></div>
     </header>
 
@@ -172,21 +155,69 @@
         </div>
 
         <div id="section-student" class="page-section">
+            <h2 style="color:var(--primary-color)">📚 بوابة الطالب القرآني</h2>
             
-            <div class="verse-card-box">
-                <h3 style="margin:0 0 15px 0; font-size:1.1rem; opacity:0.9;">✨ وقفة مع آية</h3>
-                <div id="waqfa-text" class="verse-text-large">جارِ تحميل الآية...</div>
-                <button class="refresh-btn" onclick="showNewWaqfa()">🔄 آية أخرى</button>
+            <div class="quran-tabs">
+                <button class="quran-tab active" onclick="openQuranTab('surahs')">📖 السور</button>
+                <button class="quran-tab" onclick="openQuranTab('juz')">📚 الأجزاء</button>
+                <button class="quran-tab" onclick="openQuranTab('readers')">🎧 القراء</button>
+                <button class="quran-tab" onclick="openQuranTab('progress')">📊 إنجازي</button>
             </div>
 
-            <h2 style="color:var(--primary-color)">📖 المصحف الشريف</h2>
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="surah-search" class="search-box" placeholder="اكتب اسم السورة للبحث..." onkeyup="filterSurahs()">
+            <div id="tab-surahs" class="quran-content-section active">
+                <input type="text" id="surah-search" class="search-box" placeholder="🔍 ابحث عن سورة..." style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;" onkeyup="filterSurahs()">
+                <div id="quran-loader" style="text-align:center;">جاري تحميل المصحف...</div>
+                <div id="quran-container" class="quran-grid"></div>
             </div>
-            
-            <div id="quran-loader" style="text-align:center; color:var(--primary-color);">جاري جلب السور... ⏳</div>
-            <div id="quran-container" class="quran-grid"></div>
+
+            <div id="tab-juz" class="quran-content-section">
+                <div class="quran-grid" id="juz-container">
+                    </div>
+            </div>
+
+            <div id="tab-readers" class="quran-content-section">
+                <div class="card">
+                    <h3>🎧 الاستماع للقراء</h3>
+                    <ul style="list-style:none; padding:0;">
+                        <li style="padding:10px; border-bottom:1px solid #eee;">🎙️ الشيخ الحصري (المعلم)</li>
+                        <li style="padding:10px; border-bottom:1px solid #eee;">🎙️ الشيخ المنشاوي</li>
+                        <li style="padding:10px; border-bottom:1px solid #eee;">🎙️ الشيخ عبدالباسط</li>
+                        <li style="padding:10px;">🎙️ الشيخ أيمن سويد</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="tab-progress" class="quran-content-section">
+                <div class="progress-container">
+                    <h3>📊 متابعة الحفظ</h3>
+                    <p>حدد عدد الأجزاء التي أتممت حفظها:</p>
+                    <input type="number" id="hifz-input" min="0" max="30" value="0" style="padding:10px; width:60px; text-align:center; font-size:1.2rem; border-radius:5px; border:1px solid #ccc;">
+                    <button onclick="updateProgress()" style="padding:10px 20px; background:var(--primary-color); color:white; border:none; border-radius:5px; cursor:pointer;">حفظ</button>
+                    
+                    <div class="progress-bar-bg">
+                        <div id="progress-fill" class="progress-bar-fill"></div>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div>
+                            <strong id="hifz-done" style="color:var(--primary-color); font-size:1.5rem;">0</strong><br>أجزاء محفوظة
+                        </div>
+                        <div>
+                            <strong id="hifz-left" style="color:#ef4444; font-size:1.5rem;">30</strong><br>أجزاء متبقية
+                        </div>
+                    </div>
+                    <p style="margin-top:15px; color:#666;">✨ "قليلٌ دائم خيرٌ من كثيرٍ منقطع"</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-rings" class="page-section">
+            <h2 style="color:var(--primary-color)">🕰️ أوقات وتفاصيل الحلقات</h2>
+            <div style="margin-bottom: 10px; font-size: 0.9rem; color: #666;">
+                📅 <strong>أيام الدراسة:</strong> من السبت إلى الخميس<br>
+                ℹ️ اضغط على اسم الحلقة لمعرفة المستوى والمنهج
+            </div>
+            <div id="rings-details-list"></div>
         </div>
 
         <div id="section-ranks" class="page-section">
@@ -253,6 +284,13 @@
                 { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
                 { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] }
             ],
+            // 🔹 بيانات الحلقات (التفاصيل التي اختفت واستعدناها)
+            ringsDetails: [
+                { name: "🌱 حلقة البراعم", time: "بعد العصر", level: "مستوى أول", details: "لتعليم القاعدة النورانية وقصار السور." },
+                { name: "📘 حلقة المبتدئين", time: "بعد المغرب", level: "مستوى ثاني", details: "حفظ جزء عم وتبارك مع التلقين." },
+                { name: "📗 حلقة المتوسطين", time: "بعد المغرب", level: "مستوى ثالث", details: "للطلاب الذين أتموا 3 أجزاء." },
+                { name: "📕 الحلقة النموذجية", time: "بعد المغرب", level: "متقدم", details: "برنامج مكثف للحفظ وضبط المتشابهات." }
+            ],
             ranks: [
                 { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] },
                 { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] },
@@ -277,7 +315,8 @@
         // ================= القوائم =================
         const menus = [
             { id: 'home', text: '🏠 الرئيسية' },
-            { id: 'student', text: '👨‍🎓 بوابة الطالب' }, /* الزر الجديد المجمع */
+            { id: 'student', text: '🎓 بوابة الطالب' },
+            { id: 'rings', text: '🕰️ الحلقات' }, /* 🔹 الزر المستعاد */
             { id: 'ranks', text: '🏆 الأوائل' },
             { id: 'schedule', text: '📅 الجداول' },
             { id: 'teachers', text: '👨‍🏫 المعلمون' },
@@ -295,20 +334,28 @@
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                // تحميل السور عند فتح قسم الطالب
-                if(menu.id === 'student') {
-                    if(document.getElementById('quran-container').innerHTML === "") fetchSurahs();
-                    // عرض آية في وقفة مع آية إذا كانت فارغة
-                    if(document.getElementById('waqfa-text').innerText === "جارِ تحميل الآية...") showNewWaqfa();
-                }
+                if(menu.id === 'student' && document.getElementById('quran-container').innerHTML === "") fetchSurahs();
             };
             navContainer.appendChild(btn);
         });
         navContainer.firstChild.classList.add('active');
 
-        // ================= وظائف المصحف ووقفة مع آية =================
-        let allSurahs = [];
+        // ================= برمجة بوابة الطالب الشاملة =================
+        function openQuranTab(tabName) {
+            document.querySelectorAll('.quran-content-section').forEach(d => d.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.querySelectorAll('.quran-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
 
+            if(tabName === 'juz' && document.getElementById('juz-container').innerHTML === "") {
+                for(let i=1; i<=30; i++) {
+                    document.getElementById('juz-container').innerHTML += `<div class="quran-item">الجزء ${i}</div>`;
+                }
+            }
+        }
+
+        // كود المصحف (API)
+        let allSurahs = [];
         function fetchSurahs() {
             fetch('https://quran.i8x.net/api/surahs')
                 .then(response => response.json())
@@ -316,112 +363,79 @@
                     document.getElementById('quran-loader').style.display = 'none';
                     allSurahs = Array.isArray(data) ? data : (data.result || data.data || []);
                     renderSurahs(allSurahs);
-                })
-                .catch(error => {
-                    document.getElementById('quran-loader').innerHTML = "حدث خطأ في تحميل المصحف.";
                 });
         }
-
         function renderSurahs(surahs) {
             const container = document.getElementById('quran-container');
-            if(surahs.length === 0) {
-                container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#999;">لا توجد سورة بهذا الاسم</div>';
-                return;
-            }
             container.innerHTML = surahs.map(surah => `
-                <div class="surah-card">
-                    <div class="surah-num">${surah.id || surah.number}</div>
-                    <div class="surah-name">سورة ${surah.name_ar || surah.name}</div>
-                    <div class="surah-info">
-                        ${surah.type_ar || ''} • ${surah.verses_count || surah.numberOfAyahs} آية
-                    </div>
+                <div class="quran-item">
+                    <div style="font-weight:bold; color:var(--primary-color)">${surah.id}</div>
+                    <div>${surah.name_ar || surah.name}</div>
                 </div>
             `).join('');
         }
-
         function filterSurahs() {
             const query = document.getElementById('surah-search').value.toLowerCase();
-            const filtered = allSurahs.filter(s => 
-                (s.name_ar || s.name).includes(query) || 
-                (s.id || s.number).toString().includes(query)
-            );
+            const filtered = allSurahs.filter(s => (s.name_ar || s.name).includes(query));
             renderSurahs(filtered);
         }
 
-        // === قائمة الآيات (للهيدر ولوقفة مع آية) ===
-        const verses = [
-            "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾",
-            "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾",
-            "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾", "﴿ وَاذْكُر رَّبَّكَ كَثِيرًا ﴾", "﴿ وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ﴾",
-            "﴿ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ ﴾", "﴿ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾", "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
-            "﴿ وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ ﴾", "﴿ وَاللَّهُ خَيْرُ الْحَافِظِينَ ﴾"
-        ];
+        // كود الإنجاز (كم باقي لك)
+        function updateProgress() {
+            let done = document.getElementById('hifz-input').value;
+            if(done > 30) done = 30; if(done < 0) done = 0;
+            let left = 30 - done;
+            let percent = (done / 30) * 100;
+            
+            document.getElementById('hifz-done').innerText = done;
+            document.getElementById('hifz-left').innerText = left;
+            document.getElementById('progress-fill').style.width = percent + "%";
+            
+            // حفظ في المتصفح
+            localStorage.setItem('userHifz', done);
+        }
+        // استرجاع الحفظ القديم
+        let savedHifz = localStorage.getItem('userHifz');
+        if(savedHifz) { 
+            document.getElementById('hifz-input').value = savedHifz;
+            updateProgress();
+        }
 
-        // وظيفة شريط الهيدر
+        // ================= استعادة تفاصيل الحلقات =================
+        const ringsContainer = document.getElementById('rings-details-list');
+        siteData.ringsDetails.forEach(ring => {
+            ringsContainer.innerHTML += `
+            <details>
+                <summary><span>${ring.name}</span><span style="font-size:0.8rem; color:#666">${ring.time}</span></summary>
+                <div class="ring-content"><p><strong>المستوى:</strong> ${ring.level}</p><p>${ring.details}</p></div>
+            </details>`;
+        });
+
+        // ================= الوظائف الأخرى =================
+        const verses = ["﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾", "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾"];
         const verseDisplay = document.getElementById('verse-display');
         function showRandomVerseHeader() {
-            const randomVerse = verses[Math.floor(Math.random() * verses.length)];
-            verseDisplay.innerText = randomVerse;
+            verseDisplay.innerText = verses[Math.floor(Math.random() * verses.length)];
             verseDisplay.classList.add('visible');
             setTimeout(() => { verseDisplay.classList.remove('visible'); }, 8000);
         }
-        showRandomVerseHeader();
-        setInterval(showRandomVerseHeader, 38000);
+        showRandomVerseHeader(); setInterval(showRandomVerseHeader, 38000);
 
-        // وظيفة بطاقة "وقفة مع آية" (في قسم الطالب)
-        function showNewWaqfa() {
-            const waqfaText = document.getElementById('waqfa-text');
-            waqfaText.style.opacity = 0;
-            setTimeout(() => {
-                waqfaText.innerText = verses[Math.floor(Math.random() * verses.length)];
-                waqfaText.style.opacity = 1;
-            }, 300);
-        }
+        siteData.news.forEach(n => { document.getElementById('news-list').innerHTML += `<div class="card clickable" onclick="toggleWinners(${n.id})"><strong>📅 ${n.date}</strong><br>${n.text}<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div></div>`; });
+        function toggleWinners(id) { const el = document.getElementById(`win-${id}`); if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block'; }
 
-        // ================= بقية الوظائف =================
-        siteData.news.forEach(n => {
-            document.getElementById('news-list').innerHTML += `
-                <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
-                    <strong>📅 ${n.date}</strong><br>${n.text}
-                    ${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}
-                </div>`;
-        });
-        function toggleWinners(id) {
-            const el = document.getElementById(`win-${id}`);
-            if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-        }
-
-        siteData.ranks.forEach(r => {
-            let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
-            document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
-        });
+        siteData.ranks.forEach(r => { document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${r.students.map((s,i)=>`<li>${s}</li>`).join('')}</ul></div>`; });
 
         function createTable(ringName, baseTime, isEvening) {
             let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
             let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
-            days.forEach(day => {
-                let timeDisplay = baseTime;
-                if (isEvening && day === "الخميس") timeDisplay = "إلى أذان العشاء";
-                table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`;
-            });
+            days.forEach(day => { let t = (isEvening && day==="الخميس") ? "إلى العشاء" : baseTime; table += `<tr><td>${day}</td><td>${t}</td><td>حفظ</td></tr>`; });
             document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
         }
-
-        siteData.afternoonRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => createTable(ring.name, ring.time, false);
-            document.getElementById('ring-selectors-afternoon').appendChild(b);
-        });
-
-        siteData.eveningRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => createTable(ring.name, ring.time, true);
-            document.getElementById('ring-selectors-evening').appendChild(b);
-        });
-
-        siteData.teachers.forEach(t => {
-            document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
-        });
+        siteData.afternoonRings.forEach(r => { const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name; b.onclick=()=>createTable(r.name, r.time, false); document.getElementById('ring-selectors-afternoon').appendChild(b); });
+        siteData.eveningRings.forEach(r => { const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name; b.onclick=()=>createTable(r.name, r.time, true); document.getElementById('ring-selectors-evening').appendChild(b); });
+        
+        siteData.teachers.forEach(t => { document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`; });
     </script>
 </body>
 </html>
