@@ -1,77 +1,197 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>موقع حلقات تحفيظ القرآن الكريم</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حلقات الفرقان لتحفيظ القرآن الكريم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Tahoma, Arial;
-            background-color: #f3f6f4;
-            direction: rtl;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary-color: #047857;
+            --accent-color: #fbbf24;
+            --text-dark: #1f2937;
+            --bg-light: #f3f4f6;
         }
+        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); }
+        
+        /* الرأس */
         header {
-            background-color: #1e7f5c;
+            background-color: var(--primary-color);
             color: white;
             padding: 20px;
             text-align: center;
         }
-        section {
-            padding: 20px;
-            margin: 15px;
+        header h1 { margin: 0; font-family: 'Amiri', serif; }
+
+        /* شريط الأزرار (القائمة) */
+        .nav-container {
             background: white;
-            border-radius: 10px;
-        }
-        h2 {
-            color: #1e7f5c;
-        }
-        footer {
-            background-color: #eee;
-            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 10px;
-            font-size: 14px;
-            color: #555;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+
+        .nav-btn {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* المحتوى */
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        
+        /* إخفاء الأقسام */
+        .page-section { display: none; animation: fadeIn 0.5s; }
+        .page-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* التصاميم الداخلية */
+        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .teacher-card { display: flex; align-items: center; gap: 15px; border-right: 4px solid var(--accent-color); }
+        .teacher-icon { font-size: 2rem; background: #eee; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background-color: var(--primary-color); color: white; }
+
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>حلقات الثريا لتحفيظ القرآن الكريم</h1>
-    <p>تعليم · تحفيظ · تجويد</p>
-</header>
+    <header>
+        <h1 id="site-title">حلقات الفرقان</h1>
+        <p>لتحفيظ القرآن الكريم</p>
+    </header>
 
-<section>
-    <h2>🕌 عن الحلقات</h2>
-    <p>
-        حلقات قرآنية تهدف إلى تحفيظ كتاب الله تعالى
-        وتعليم أحكام التلاوة والتجويد بإشراف معلمين مؤهلين.
-    </p>
-</section>
+    <div class="nav-container" id="nav-buttons">
+        </div>
 
-<section>
-    <h2>📢 آخر التحديثات</h2>
-    <ul>
-        <li>بداية الفصل الجديد يوم الأحد</li>
-        <li>اختبار الحفظ نهاية الشهر</li>
-        <li>إجازة يوم الجمعة</li>
-    </ul>
-</section>
+    <div class="container">
+        
+        <div id="section-home" class="page-section active">
+            <h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>
+            <div id="news-list"></div>
+        </div>
 
-<section>
-    <h2>📅 جدول الحلقات</h2>
-    <p>من السبت إلى الخميس – بعد صلاة العصر</p>
-</section>
+        <div id="section-teachers" class="page-section">
+            <h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>
+            <div id="teachers-list"></div>
+        </div>
 
-<section>
-    <h2>👨‍🏫 المعلمون</h2>
-    <p>الشيخ أحمد – الشيخ محمد – الشيخة فاطمة</p>
-</section>
+        <div id="section-schedule" class="page-section">
+            <h2 style="color:var(--primary-color)">📅 الجدول الأسبوعي</h2>
+            <table>
+                <thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead>
+                <tbody id="schedule-body"></tbody>
+            </table>
+        </div>
 
-<footer>
-    © 2026 - altrhea-quran
-</footer>
+    </div>
 
+    <footer>جميع الحقوق محفوظة © 2026</footer>
+
+    <script>
+        // ============================================================
+        // 👇 منطقة البيانات - عدل هنا فقط 👇
+        // ============================================================
+
+        const siteData = {
+            // 1. الأخبار
+            news: [
+                { date: "15-1", text: "تم تكريم الطلاب المتميزين لهذا الأسبوع." },
+                { date: "12-1", text: "تنبيه: بداية التسجيل للدورة الصيفية." }
+            ],
+
+            // 2. المعلمون (هنا تظهر القائمة عند ضغط الزر)
+            teachers: [
+                { name: "الشيخ عبدالله", job: "المشرف العام" },
+                { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
+                { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" },
+                { name: "أ. خالد علي", job: "حلقة التلقين" }
+            ],
+
+            // 3. الجدول
+            schedule: [
+                { day: "الأحد", time: "العصر", note: "حفظ" },
+                { day: "الاثنين", time: "العصر", note: "مراجعة" },
+                { day: "الثلاثاء", time: "المغرب", note: "تجويد" }
+            ]
+        };
+
+        // ============================================================
+        // ⚙️ برمجة الأزرار (لا تلمس هذا الجزء)
+        // ============================================================
+
+        // تعريف القوائم
+        const menus = [
+            { id: 'home', text: '🏠 الرئيسية' },
+            { id: 'teachers', text: '👨‍🏫 المعلمون' },
+            { id: 'schedule', text: '📅 الجدول' }
+        ];
+
+        // إنشاء الأزرار
+        const navContainer = document.getElementById('nav-buttons');
+        menus.forEach((menu, index) => {
+            const btn = document.createElement('button');
+            btn.className = `nav-btn ${index === 0 ? 'active' : ''}`;
+            btn.innerText = menu.text;
+            btn.onclick = () => switchTab(menu.id, btn);
+            navContainer.appendChild(btn);
+        });
+
+        // دالة التبديل بين الصفحات
+        function switchTab(sectionId, btnElement) {
+            // إخفاء كل الأقسام
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            // إظهار القسم المطلوب
+            document.getElementById(`section-${sectionId}`).classList.add('active');
+            
+            // تحديث لون الزر
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            btnElement.classList.add('active');
+        }
+
+        // تعبئة البيانات
+        // الأخبار
+        siteData.news.forEach(n => {
+            document.getElementById('news-list').innerHTML += `
+            <div class="card"><strong>📅 ${n.date}</strong><br>${n.text}</div>`;
+        });
+
+        // المعلمين
+        siteData.teachers.forEach(t => {
+            document.getElementById('teachers-list').innerHTML += `
+            <div class="card teacher-card">
+                <div class="teacher-icon">👤</div>
+                <div><h3>${t.name}</h3><span style="color:gray">${t.job}</span></div>
+            </div>`;
+        });
+
+        // الجدول
+        siteData.schedule.forEach(s => {
+            document.getElementById('schedule-body').innerHTML += `
+            <tr><td>${s.day}</td><td>${s.time}</td><td>${s.note}</td></tr>`;
+        });
+
+    </script>
 </body>
 </html>
