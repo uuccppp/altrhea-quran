@@ -64,6 +64,54 @@
 
         .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
 
+        /* تنسيق قسم من نحن */
+        .poetic-text {
+            text-align: center;
+            line-height: 2;
+            color: #374151;
+            font-size: 1.05rem;
+            background: linear-gradient(to bottom, #ffffff, #f9fafb);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .quran-verse {
+            color: var(--primary-color);
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            margin-top: 15px;
+            display: block;
+        }
+
+        /* تنسيق أزرار التواصل الجديدة */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .contact-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .contact-box:active { transform: scale(0.95); }
+        .contact-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        
+        .bg-whatsapp { background-color: #25D366; }
+        .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-call { background-color: #3b82f6; }
+        .bg-map { background-color: #ea4335; }
+
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
     </style>
 </head>
@@ -125,6 +173,71 @@
             <div id="teachers-list"></div>
         </div>
 
+        <div id="section-about" class="page-section">
+            <h2 style="color:var(--primary-color)">🕌 من نحن</h2>
+            
+            <div class="card poetic-text">
+                نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
+                حيث لا يُحفظ القرآن بالألسنة فقط،<br>
+                بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
+                
+                نؤمن أن القرآن هو الحياة،<br>
+                هو النور حين تشتد العتمة،<br>
+                وهو الثبات حين تتقاذف الفتن القلوب،<br>
+                ومن أجله نغرس في أبنائنا حبّه<br>
+                قبل أن نطالبهم بحفظه.<br><br>
+
+                في حلقاتنا لا نعدّ الصفحات،<br>
+                بل نصنع أثرًا،<br>
+                ولا نبحث عن سرعة الحفظ،<br>
+                بل عن حفظٍ راسخٍ يُثمر عملاً وأخلاقًا.<br><br>
+
+                نسير بمنهجٍ تربويٍّ واعٍ<br>
+                قائم على التدرّج، والتلقين الصحيح، والمراجعة المستمرة،<br>
+                بإشراف معلمين حملوا القرآن علمًا وعملاً،<br>
+                وفي بيئة إيمانية تشبه المساجد الأولى…<br>
+                صفاءً، وطمأنينة، وهيبةً لكلام الله.<br><br>
+
+                غايتنا أن يخرج من بيننا<br>
+                جيلٌ يعرف طريقه،<br>
+                يرفع القرآن في صدره،<br>
+                ويحمله في سلوكه،<br>
+                ويشهد له قبل أن يشهد به.<br><br>
+
+                لسنا حلقة تحفيظ فحسب،<br>
+                بل مسيرة إيمان،<br>
+                وبداية عهدٍ مع كتاب الله لا ينقطع.<br><br>
+
+                <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
+                ومن القرآن… نبدأ،<br>
+                وبه… نرتقي،<br>
+                وعليه… نلقى الله.
+            </div>
+
+            <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
+            <div class="contact-grid">
+                <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp">
+                    <span class="contact-icon">💬</span>
+                    <span>واتساب</span>
+                </a>
+                
+                <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank" class="contact-box bg-insta">
+                    <span class="contact-icon">📸</span>
+                    <span>انستقرام</span>
+                </a>
+
+                <a href="tel:+967777006546" class="contact-box bg-call">
+                    <span class="contact-icon">📞</span>
+                    <span>اتصال هاتفي</span>
+                </a>
+
+                <a href="https://maps.app.goo.gl/dRRYPVJyqh2NKMg86" target="_blank" class="contact-box bg-map">
+                    <span class="contact-icon">📍</span>
+                    <span>موقع المسجد</span>
+                </a>
+            </div>
+        </div>
+
         <div id="section-mobile" class="page-section">
             <h2 style="color:var(--primary-color)">📱 تطبيق الجوال</h2>
             <div class="card">
@@ -154,7 +267,7 @@
                 { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
                 { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" }
             ],
-            // بيانات الجداول الجديدة
+            // بيانات الجداول
             afternoonRings: [
                 { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" }
             ],
@@ -171,6 +284,7 @@
             { id: 'ranks', text: '🏆 الأوائل' },
             { id: 'schedule', text: '📅 الجداول' },
             { id: 'teachers', text: '👨‍🏫 المعلمون' },
+            { id: 'about', text: 'ℹ️ من نحن' }, /* الزر الجديد هنا */
             { id: 'mobile', text: '📱 الجوال' }
         ];
 
@@ -216,7 +330,6 @@
             
             days.forEach(day => {
                 let timeDisplay = baseTime;
-                // شرط يوم الخميس لحلقات المغرب
                 if (isEvening && day === "الخميس") {
                     timeDisplay = "إلى أذان العشاء";
                 }
