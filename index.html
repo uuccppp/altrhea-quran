@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حلقات الفرقان لتحفيظ القرآن الكريم</title>
+    <title>حلقات الثريا لتحفيظ القرآن الكريم</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #047857;
-            --accent-color: #fbbf24;
+            --primary-color: #047857; /* أخضر غامق */
+            --accent-color: #fbbf24; /* ذهبي */
             --text-dark: #1f2937;
             --bg-light: #f3f4f6;
+            --whatsapp-color: #25D366;
+            --call-color: #3b82f6;
         }
-        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); }
+        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); padding-bottom: 60px; }
         
         /* الرأس */
         header {
@@ -20,35 +22,68 @@
             color: white;
             padding: 20px;
             text-align: center;
+            background-image: radial-gradient(circle, rgba(4,120,87,1) 0%, rgba(6,78,59,1) 100%);
         }
-        header h1 { margin: 0; font-family: 'Amiri', serif; }
+        header h1 { margin: 0; font-family: 'Amiri', serif; font-size: 2.2rem; }
+        header .slogan { color: var(--accent-color); font-size: 1rem; margin-top: 5px; }
 
-        /* شريط الأزرار (القائمة) */
-        .nav-container {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 10px;
+        /* أزرار التواصل العلوية */
+        .contact-header {
             display: flex;
             justify-content: center;
             gap: 10px;
-            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .contact-btn {
+            text-decoration: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+        .btn-whatsapp { background-color: var(--whatsapp-color); }
+        .btn-call { background-color: var(--call-color); }
+        .btn-map { background-color: #ea4335; }
+        .contact-btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        /* أيقونات السوشيال ميديا */
+        .social-icons { margin-top: 15px; }
+        .social-icons a { margin: 0 10px; text-decoration: none; font-size: 1.5rem; }
+
+        /* شريط القوائم (Tabs) */
+        .nav-container {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 10px 5px;
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
             position: sticky;
             top: 0;
             z-index: 100;
+            white-space: nowrap; /* لمنع النزول لسطر جديد */
         }
+        /* إخفاء شريط التمرير */
+        .nav-container::-webkit-scrollbar { display: none; } 
 
         .nav-btn {
             background: none;
-            border: 2px solid var(--primary-color);
+            border: 1px solid var(--primary-color);
             color: var(--primary-color);
-            padding: 8px 20px;
+            padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
             font-weight: bold;
+            font-size: 0.9rem;
             transition: 0.3s;
+            flex-shrink: 0;
         }
-
         .nav-btn:hover, .nav-btn.active {
             background-color: var(--primary-color);
             color: white;
@@ -56,108 +91,173 @@
 
         /* المحتوى */
         .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-        
-        /* إخفاء الأقسام */
-        .page-section { display: none; animation: fadeIn 0.5s; }
+        .page-section { display: none; animation: fadeIn 0.4s; }
         .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* البطاقات */
+        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 4px solid var(--primary-color); }
+        .section-title { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; }
 
-        /* التصاميم الداخلية */
-        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .teacher-card { display: flex; align-items: center; gap: 15px; border-right: 4px solid var(--accent-color); }
-        .teacher-icon { font-size: 2rem; background: #eee; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        /* تصميم الحلقات (Expandable) */
+        details {
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            list-style: none; /* إخفاء السهم الافتراضي */
+        }
+        summary::after { content: "🔽"; font-size: 0.8rem; transition: 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        details[open] summary { background-color: var(--bg-light); color: var(--primary-color); }
         
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
-        th { background-color: var(--primary-color); color: white; }
+        .ring-content { padding: 15px; border-top: 1px solid #eee; font-size: 0.95rem; line-height: 1.6; }
+        .tag { background: var(--secondary-color); color: var(--primary-color); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; }
 
-        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
+        /* المعلمون ولوحة الشرف */
+        .teacher-card, .honor-card { display: flex; align-items: center; gap: 15px; }
+        .icon-box { font-size: 1.8rem; background: #eee; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        
+        /* الفوتر */
+        footer { 
+            text-align: center; padding: 20px; color: white; font-size: 0.8rem; 
+            background-color: #374151; margin-top: 30px;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="site-title">حلقات الثريا</h1>
-        <p>لتحفيظ القرآن الكريم</p>
+        <h1>حلقات الثريا</h1>
+        <div class="slogan">﴿ بالقرآن نرتقي ﴾</div>
+
+        <div class="contact-header">
+            <a href="tel:+967777006546" class="contact-btn btn-call">📞 اتصال</a>
+            <a href="https://wa.me/967777006546" target="_blank" class="contact-btn btn-whatsapp">💬 واتساب</a>
+            <a href="https://maps.app.goo.gl/mFVis4PTjbyVVYHAA" target="_blank" class="contact-btn btn-map">📍 موقعنا</a>
+        </div>
+
+        <div class="social-icons">
+            <a href="https://t.me/+Q16u1nbgnbtmOGRk" target="_blank">✈️</a> <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank">📸</a> </div>
     </header>
 
-    <div class="nav-container" id="nav-buttons">
-        </div>
+    <div class="nav-container" id="nav-buttons"></div>
 
     <div class="container">
         
-        <div id="section-home" class="page-section active">
-            <h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>
-            <div id="news-list"></div>
+        <div id="section-about" class="page-section active">
+            <h2 class="section-title">🌟 من نحن</h2>
+            <div class="card">
+                <p>حلقات الثريا لتحفيظ القرآن الكريم هي حلقات تعليمية تهدف إلى غرس حب كتاب الله في نفوس الناشئة، وتعليمهم تلاوته وحفظه وفق منهجية تربوية قائمة على التلقين، المراجعة، والتدرج في الحفظ، بإشراف معلمين مؤهلين، وفي بيئة إيمانية محفزة.</p>
+                <div style="text-align: center; margin-top: 10px; color: var(--primary-color); font-weight: bold;">جيل قرآني متقن</div>
+            </div>
+        </div>
+
+        <div id="section-rings" class="page-section">
+            <h2 class="section-title">🕰️ أوقات وتفاصيل الحلقات</h2>
+            <div style="margin-bottom: 10px; font-size: 0.9rem; color: #666;">
+                📅 <strong>أيام الدراسة:</strong> من السبت إلى الخميس<br>
+                ℹ️ اضغط على اسم الحلقة لمعرفة التفاصيل
+            </div>
+            <div id="rings-list"></div>
         </div>
 
         <div id="section-teachers" class="page-section">
-            <h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>
+            <h2 class="section-title">👨‍🏫 الكادر التعليمي</h2>
             <div id="teachers-list"></div>
         </div>
 
-        <div id="section-schedule" class="page-section">
-            <h2 style="color:var(--primary-color)">📅 الجدول الأسبوعي</h2>
-            <table>
-                <thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead>
-                <tbody id="schedule-body"></tbody>
-            </table>
+        <div id="section-honor" class="page-section">
+            <h2 class="section-title">🏆 أوائل الطلاب (حصاد السنة)</h2>
+            <div id="honor-list"></div>
         </div>
-        
-        <div id="section-mobile" class="page-section">
-    <h2 style="color:var(--primary-color)">📱 تطبيق الجوال</h2>
-    <div class="card">
-        سيتم إطلاق تطبيق حلقات تحفيظ القرآن الكريم قريبًا بإذن الله.<br>
-        تابعونا لمعرفة آخر التحديثات.
-    </div>
-</div>
 
     </div>
 
-    <footer>جميع الحقوق محفوظة © 2026</footer>
+    <footer>
+        <p>جميع الحقوق محفوظة © 2026</p>
+        <p>حلقات الثريا لتحفيظ القرآن الكريم</p>
+        <p>بإشراف إدارة المسجد</p>
+    </footer>
 
     <script>
         // ============================================================
-        // 👇 منطقة البيانات - عدل هنا فقط 👇
+        // 👇 قاعدة البيانات (عدل هنا بسهولة) 👇
         // ============================================================
 
         const siteData = {
-            // 1. الأخبار
-            news: [
-                { date: "15-1", text: "تم تكريم الطلاب المتميزين لهذا الأسبوع." },
-                { date: "12-1", text: "تنبيه: بداية التسجيل للدورة الصيفية." }
+            // 1. تفاصيل الحلقات (الميزة الجديدة)
+            rings: [
+                { 
+                    name: "🌱 حلقة البراعم (للصغار)", 
+                    time: "بعد العصر ☀️", 
+                    level: "مستوى أول", 
+                    details: "مخصصة للأطفال ما قبل المدرسة. نركز فيها على القاعدة النورانية وقصار السور." 
+                },
+                { 
+                    name: "📘 حلقة المبتدئين", 
+                    time: "بعد المغرب 🌙", 
+                    level: "مستوى ثاني", 
+                    details: "للطلاب الجدد في سن المدرسة. المنهج: جزء عم وتبارك مع التلقين." 
+                },
+                { 
+                    name: "📗 حلقة المتوسطين", 
+                    time: "بعد المغرب 🌙", 
+                    level: "مستوى ثالث", 
+                    details: "للطلاب الذين أتموا 3 أجزاء. تركيز على الحفظ الجديد والمراجعة المستمرة." 
+                },
+                { 
+                    name: "📕 الحلقة النموذجية", 
+                    time: "بعد المغرب 🌙", 
+                    level: "مستوى متقدم", 
+                    details: "للطلاب المتقنين. برنامج مكثف للحفظ وضبط المتشابهات." 
+                },
+                { 
+                    name: "🕌 حلقة الكبار (مراجعة)", 
+                    time: "بعد العشاء (يومان) 🌌", 
+                    level: "مفتوح", 
+                    details: "حلقة خاصة للكبار والموظفين لمراجعة محفوظهم وتصحيح التلاوة." 
+                }
             ],
 
-            // 2. المعلمون (هنا تظهر القائمة عند ضغط الزر)
+            // 2. المعلمون
             teachers: [
-                { name: "الشيخ عبدالله", job: "المشرف العام" },
-                { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
-                { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" },
-                { name: "أ. خالد علي", job: "حلقة التلقين" }
+                { name: "أ. عمر باكحيل", role: "المشرف العام على الحلقات" },
+                { name: "أ. أحمد سالم", role: "معلم حلقة المبتدئين" },
+                { name: "أ. سعيد عمر", role: "معلم حلقة المتوسطين" },
+                { name: "أ. خالد علي", role: "معلم الحلقة النموذجية" }
             ],
 
-            // 3. الجدول
-            schedule: [
-                { day: "الأحد", time: "العصر", note: "حفظ" },
-                { day: "الاثنين", time: "العصر", note: "مراجعة" },
-                { day: "الثلاثاء", time: "المغرب", note: "تجويد" }
+            // 3. لوحة الشرف (السنوية)
+            honor: [
+                { name: "محمد أحمد", rank: "🥇 المركز الأول" },
+                { name: "عبدالرحمن سالم", rank: "🥈 المركز الثاني" },
+                { name: "يوسف علي", rank: "🥉 المركز الثالث" }
             ]
         };
 
         // ============================================================
-        // ⚙️ برمجة الأزرار (لا تلمس هذا الجزء)
+        // ⚙️ المحرك البرمجي (لا تعدل هنا)
         // ============================================================
 
-        // تعريف القوائم
+        // 1. إنشاء القوائم
         const menus = [
-            { id: 'home', text: '🏠 الرئيسية' },
+            { id: 'about', text: 'ℹ️ من نحن' },
+            { id: 'rings', text: '🕰️ أوقات الحلقات' },
             { id: 'teachers', text: '👨‍🏫 المعلمون' },
-            { id: 'schedule', text: '📅 الجدول' },
-            { id: 'mobile', text: '📱 الجوال' },
+            { id: 'honor', text: '🏆 لوحة الشرف' }
         ];
 
-        // إنشاء الأزرار
         const navContainer = document.getElementById('nav-buttons');
         menus.forEach((menu, index) => {
             const btn = document.createElement('button');
@@ -167,38 +267,53 @@
             navContainer.appendChild(btn);
         });
 
-        // دالة التبديل بين الصفحات
         function switchTab(sectionId, btnElement) {
-            // إخفاء كل الأقسام
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            // إظهار القسم المطلوب
             document.getElementById(`section-${sectionId}`).classList.add('active');
-            
-            // تحديث لون الزر
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             btnElement.classList.add('active');
         }
 
-        // تعبئة البيانات
-        // الأخبار
-        siteData.news.forEach(n => {
-            document.getElementById('news-list').innerHTML += `
-            <div class="card"><strong>📅 ${n.date}</strong><br>${n.text}</div>`;
+        // 2. تعبئة الحلقات (نظام القائمة المنسدلة)
+        const ringsList = document.getElementById('rings-list');
+        siteData.rings.forEach(ring => {
+            ringsList.innerHTML += `
+            <details>
+                <summary>
+                    <span>${ring.name}</span>
+                    <span style="font-size:0.8rem; color:#666">${ring.time}</span>
+                </summary>
+                <div class="ring-content">
+                    <p><strong>المستوى:</strong> ${ring.level}</p>
+                    <p><strong>التفاصيل:</strong> ${ring.details}</p>
+                </div>
+            </details>`;
         });
 
-        // المعلمين
+        // 3. تعبئة المعلمين
+        const teachersList = document.getElementById('teachers-list');
         siteData.teachers.forEach(t => {
-            document.getElementById('teachers-list').innerHTML += `
+            teachersList.innerHTML += `
             <div class="card teacher-card">
-                <div class="teacher-icon">👤</div>
-                <div><h3>${t.name}</h3><span style="color:gray">${t.job}</span></div>
+                <div class="icon-box">👳‍♂️</div>
+                <div>
+                    <h3 style="margin:0 0 5px 0">${t.name}</h3>
+                    <span style="color:var(--primary-color); font-size:0.9rem">${t.role}</span>
+                </div>
             </div>`;
         });
 
-        // الجدول
-        siteData.schedule.forEach(s => {
-            document.getElementById('schedule-body').innerHTML += `
-            <tr><td>${s.day}</td><td>${s.time}</td><td>${s.note}</td></tr>`;
+        // 4. تعبئة لوحة الشرف
+        const honorList = document.getElementById('honor-list');
+        siteData.honor.forEach(h => {
+            honorList.innerHTML += `
+            <div class="card honor-card">
+                <div class="icon-box">⭐</div>
+                <div>
+                    <h3 style="margin:0 0 5px 0">${h.name}</h3>
+                    <span style="color:#d97706; font-weight:bold">${h.rank}</span>
+                </div>
+            </div>`;
         });
 
     </script>
