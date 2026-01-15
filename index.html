@@ -20,12 +20,11 @@
             --border-color: #eee;
         }
 
-        /* تنسيق الوضع الليلي */
         body.dark-mode {
-            --primary-color: #34d399; /* أخضر فاتح لليلي */
+            --primary-color: #34d399; 
             --text-dark: #f9fafb;
-            --bg-light: #111827; /* خلفية داكنة جداً */
-            --card-bg: #1f2937; /* خلفية الكروت داكنة */
+            --bg-light: #111827; 
+            --card-bg: #1f2937; 
             --border-color: #374151;
         }
 
@@ -47,7 +46,6 @@
         }
         .video-container video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* زر الوضع الليلي */
         .theme-toggle {
             position: absolute; top: 15px; right: 15px;
             background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
@@ -73,7 +71,6 @@
             padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;
         }
         .nav-btn.active, .nav-btn:hover { background-color: var(--primary-color); color: (body.dark-mode ? #000 : white); }
-        /* تصحيح لون النص داخل الزر النشط في الوضع الليلي */
         body:not(.dark-mode) .nav-btn.active { color: white; }
         body.dark-mode .nav-btn.active { color: #111827; font-weight: 800; }
 
@@ -89,21 +86,71 @@
 
         table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; margin-top: 10px; }
         th, td { padding: 10px; text-align: center; border-bottom: 1px solid var(--border-color); }
-        th { background-color: var(--primary-color); color: #fff; } /* لون النص في الهيدر أبيض دائما */
-        body.dark-mode th { color: #111827; } /* لون النص داكن في الوضع الليلي للهيدر */
+        th { background-color: var(--primary-color); color: #fff; }
+        body.dark-mode th { color: #111827; }
 
         .group-title { background: var(--border-color); padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
 
-        /* تنسيقات حاسبة الختم */
+        /* ========================
+           تنسيقات ركن الطالب
+           ======================== */
+        .accordion-btn {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            cursor: pointer; padding: 18px; width: 100%; text-align: right;
+            border: none; outline: none; transition: 0.4s; border-radius: 10px;
+            margin-bottom: 10px; font-weight: bold; font-size: 1.1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid var(--border-color);
+        }
+        .accordion-btn:hover, .accordion-btn.active-acc { background-color: var(--primary-color); color: white; }
+        .accordion-panel {
+            padding: 0 15px; background-color: var(--card-bg); max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease-out; border-radius: 0 0 10px 10px;
+            margin-bottom: 15px; border: 1px solid var(--border-color); border-top: none;
+        }
+
+        .calc-input-group { margin-bottom: 15px; }
+        .calc-input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary-color); }
+        select.form-select, input.form-input {
+            width: 100%; padding: 10px; border-radius: 8px; 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-light); color: var(--text-dark);
+            font-family: inherit; font-size: 1rem;
+        }
+        .radio-group { display: flex; gap: 15px; margin-bottom: 15px; }
+        .radio-label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
         .calc-btn {
             display: block; width: 100%; margin: 5px 0; padding: 12px;
             background: var(--bg-light); border: 2px solid var(--border-color);
             border-radius: 8px; color: var(--text-dark); cursor: pointer; font-size: 1rem;
             transition: 0.2s; text-align: center;
         }
-        .calc-btn:hover, .calc-btn.selected { border-color: var(--primary-color); background: rgba(4, 120, 87, 0.05); }
-        .calc-input { width: 90%; padding: 10px; margin: 10px 0; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit; background: var(--bg-light); color: var(--text-dark); }
-        .calc-result { background: rgba(251, 191, 36, 0.1); border: 2px solid var(--accent-color); padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; }
+        .calc-btn:hover { border-color: var(--primary-color); background: rgba(4, 120, 87, 0.05); }
+        .calc-result { 
+            background: rgba(251, 191, 36, 0.1); border: 2px solid var(--accent-color); 
+            padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center; 
+            display: none; animation: fadeIn 0.5s;
+        }
+
+        /* تنسيقات الميزات الجديدة */
+        .progress-bar-bg { background: var(--bg-light); border-radius: 10px; height: 15px; width: 100%; overflow: hidden; margin: 10px 0; border: 1px solid var(--border-color); }
+        .progress-bar-fill { background: var(--primary-color); height: 100%; width: 0%; transition: width 1s ease-in-out; }
+        
+        .streak-container { text-align: center; padding: 15px; }
+        .streak-number { font-size: 2.5rem; color: var(--accent-color); font-weight: bold; font-family: 'Amiri', serif; }
+        .streak-btns { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+        .streak-btn { padding: 10px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .streak-btn.yes { background: #dcfce7; color: #166534; border: 1px solid #166534; }
+        .streak-btn.no { background: #fee2e2; color: #991b1b; border: 1px solid #991b1b; }
+        .streak-btn:hover { transform: scale(1.05); }
+
+        .dua-container { text-align: center; }
+        .dua-box { background: rgba(4, 120, 87, 0.05); padding: 15px; border-radius: 8px; margin-top: 10px; display: none; border-right: 3px solid var(--primary-color); font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 1.8; }
+
+        .quiz-box { text-align: center; padding: 10px; }
+        .quiz-question { font-weight: bold; margin-bottom: 15px; font-size: 1.1rem; }
+        .quiz-answer { display: none; background: #ecfdf5; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--primary-color); }
 
         .poetic-text {
             text-align: center; line-height: 2; color: var(--text-dark); font-size: 1.05rem;
@@ -161,28 +208,120 @@
 
         <div id="section-student" class="page-section">
             <h2 style="color:var(--primary-color)">📖 ركن الطالب</h2>
-            
-            <div class="card">
-                <h3 style="margin-top:0;">🚀 خطة ختمي للقرآن</h3>
-                <p>حاسبة ذكية تساعدك لمعرفة متى ستختم القرآن بإذن الله.</p>
-                
-                <div id="calc-step-1">
-                    <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
-                    <div id="days-options"></div>
-                </div>
+            <p style="text-align:center; color:gray; margin-bottom:20px;">أدواتك للتميز في رحلة القرآن</p>
 
-                <div id="calc-step-2" style="display:none;">
-                    <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
-                    <div id="amount-options"></div>
-                    <div id="custom-amount-div" style="display:none;">
-                        <input type="number" id="custom-pages" class="calc-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
-                        <button class="nav-btn" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
+            <button class="accordion-btn">📊 مؤشر الثبات القرآني <span>▼</span></button>
+            <div class="accordion-panel">
+                <div class="streak-container">
+                    <p>أطول سلسلة التزام: <span id="best-streak" style="font-weight:bold">0</span> يوم</p>
+                    <div class="streak-number" id="current-streak">0</div>
+                    <p style="color:gray; font-size:0.9rem;">يوم متواصل</p>
+                    <hr style="opacity:0.2">
+                    <p>هل قرأت وردك اليوم؟</p>
+                    <div class="streak-btns">
+                        <button class="streak-btn yes" onclick="updateStreak(true)">✅ اليوم قرأت</button>
+                        <button class="streak-btn no" onclick="updateStreak(false)">❌ لم أقرأ</button>
                     </div>
                 </div>
-
-                <div id="calc-result" class="calc-result" style="display:none;"></div>
-                <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
             </div>
+
+            <button class="accordion-btn">🧮 عداد الختمة <span>▼</span></button>
+            <div class="accordion-panel">
+                <div style="padding:15px 0;">
+                    <p>كم جزءاً تحفظ الآن؟</p>
+                    <input type="number" id="khatma-input" class="form-input" placeholder="أدخل عدد الأجزاء (1-30)" max="30">
+                    <button class="nav-btn" style="width:100%; margin-top:10px" onclick="calcKhatma()">احسب النسبة ٪</button>
+                    
+                    <div id="khatma-result" style="display:none; margin-top:15px;">
+                        <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                            <span>✅ حفظت: <span id="k-done">0</span></span>
+                            <span>⏳ باقي: <span id="k-left">0</span></span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="k-bar" class="progress-bar-fill"></div>
+                        </div>
+                        <p style="text-align:center; font-weight:bold; color:var(--primary-color);">نسبة الإنجاز: <span id="k-percent">0</span>%</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion-btn">🕌 وقفة مع آية <span>▼</span></button>
+            <div class="accordion-panel">
+                <div class="quiz-box">
+                    <p style="color:gray">اختبر تركيزك واستحضر قلبك</p>
+                    
+                    <div class="calc-input-group">
+                        <label>1️⃣ اختر الجزء (إجباري):</label>
+                        <select id="quiz-juz" class="form-select" onchange="updateSurahList()">
+                            <option value="">-- اختر الجزء --</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-input-group">
+                        <label>2️⃣ اختر السورة (اختياري):</label>
+                        <select id="quiz-surah" class="form-select">
+                            <option value="0">0 (عشوائي من الجزء)</option>
+                        </select>
+                    </div>
+
+                    <button class="nav-btn" onclick="generateQuestion()">🎲 هات السؤال</button>
+
+                    <div id="quiz-area" style="display:none; margin-top:20px; border-top:1px solid #eee; padding-top:10px;">
+                        <p class="quiz-question" id="q-text"></p>
+                        <button class="nav-btn" style="font-size:0.9rem; padding:5px 15px;" onclick="document.getElementById('q-answer').style.display='block'">👁️ إظهار الجواب</button>
+                        <div id="q-answer" class="quiz-answer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion-btn">🚀 خطة ختمي (بناءً على جهدي) <span>▼</span></button>
+            <div class="accordion-panel">
+                <div style="padding: 15px 0;">
+                    <p>أخبرنا بجهدك اليومي، وسنخبرك متى تختم.</p>
+                    <div id="calc-step-1">
+                        <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
+                        <div id="days-options"></div>
+                    </div>
+                    <div id="calc-step-2" style="display:none;">
+                        <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
+                        <div id="amount-options"></div>
+                        <div id="custom-amount-div" style="display:none;">
+                            <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
+                            <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
+                        </div>
+                    </div>
+                    <div id="calc-result" class="calc-result"></div>
+                    <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
+                </div>
+            </div>
+
+            <button class="accordion-btn">🧭 دليل الختم (بناءً على وقتي) <span>▼</span></button>
+            <div class="accordion-panel">
+                <div style="padding: 15px 0;">
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="planType" value="حفظ" checked> 🧠 خطة حفظ</label>
+                        <label class="radio-label"><input type="radio" name="planType" value="قراءة"> 📖 خطة قراءة</label>
+                    </div>
+                    <div class="calc-input-group"><label>🗓️ الختم بالأيام:</label><select id="target-days" class="form-select"></select></div>
+                    <div class="calc-input-group"><label>📅 الختم بالأشهر:</label><select id="target-months" class="form-select"></select></div>
+                    <div class="calc-input-group"><label>📆 الختم بالسنوات:</label><select id="target-years" class="form-select"></select></div>
+                    <div class="calc-input-group"><label>⏩ تخطي أجزاء (تم إنجازها):</label><select id="skipped-parts" class="form-select"><option value="0">لا يوجد</option></select></div>
+                    <button class="nav-btn active" style="width:100%; padding:15px;" onclick="calculateReversePlan()">✨ احسب خطتي ✨</button>
+                    <div id="reverse-calc-result" class="calc-result"></div>
+                </div>
+            </div>
+
+            <button class="accordion-btn">📿 دعاء الحفظ <span>▼</span></button>
+            <div class="accordion-panel">
+                <div class="dua-container" style="padding:15px 0;">
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button class="nav-btn" onclick="showDua('before')">دعاء قبل الحفظ</button>
+                        <button class="nav-btn" onclick="showDua('after')">دعاء بعد الحفظ</button>
+                    </div>
+                    <div id="dua-text" class="dua-box"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="section-ranks" class="page-section">
@@ -192,23 +331,11 @@
 
         <div id="section-schedule" class="page-section">
             <h2 style="color:var(--primary-color)">📅 الجداول الدراسية</h2>
-            
             <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
             <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
-
             <div class="group-title">🌙 حلقات بعد المغرب (من المغرب إلى العشاء)</div>
             <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
-
             <div id="schedule-display"></div>
-            
-            <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
-            <div class="card" style="border-right-color: #ef4444;">
-                <ul style="margin:0; padding-right:20px;">
-                    <li>يوم الجمعة (إجازة أسبوعية)</li>
-                    <li>عيد الأضحى وعيد الفطر</li>
-                    <li>قبل الاختبارات المدرسية (الفصلية والنهائية) بأسبوع</li>
-                </ul>
-            </div>
         </div>
 
         <div id="section-teachers" class="page-section">
@@ -218,17 +345,13 @@
 
         <div id="section-about" class="page-section">
             <h2 style="color:var(--primary-color)">🕌 من نحن</h2>
-            
             <div class="card poetic-text">
                 نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
                 حيث لا يُحفظ القرآن بالألسنة فقط،<br>
                 بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
-                نؤمن أن القرآن هو الحياة،<br>
-                وهو النور حين تشتد العتمة...<br><br>
                 <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
                 ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
             </div>
-
             <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
             <div class="contact-grid">
                 <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp"><span class="contact-icon">💬</span><span>واتساب</span></a>
@@ -250,7 +373,7 @@
     <footer>جميع الحقوق محفوظة © 2026</footer>
 
     <script>
-        // === منطق الوضع الليلي ===
+        // === الوضع الليلي ===
         let isDarkMode = false;
         function toggleTheme() {
             isDarkMode = !isDarkMode;
@@ -259,210 +382,271 @@
             btn.innerText = isDarkMode ? "🌙 ليلي" : "☀️ نهاري";
         }
 
-        const siteData = {
-            news: [
-                { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
-                { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] }
-            ],
-            ranks: [
-                { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] },
-                { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] },
-                { ring: "حلقة عثمان بن عفان", students: ["بدر ناصر", "ريان يوسف", "زياد فؤاد"] },
-                { ring: "حلقة علي بن أبي طالب", students: ["حمزة صالح", "أنس محمود", "طلال بكر"] },
-                { ring: "حلقة الزبير بن العوام", students: ["معاذ إياد", "تميم منصور", "يحيى زكريا"] }
-            ],
-            teachers: [
-                { name: "الشيخ عبدالله", job: "المشرف العام" },
-                { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
-                { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" }
-            ],
-            afternoonRings: [ { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" } ],
-            eveningRings: [
-                { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" },
-                { name: "حلقة عثمان بن عفان", time: "بعد المغرب" },
-                { name: "حلقة علي بن أبي طالب", time: "بعد المغرب" },
-                { name: "حلقة الزبير بن العوام", time: "بعد المغرب" }
-            ]
+        // === تفعيل القوائم المنسدلة ===
+        const acc = document.getElementsByClassName("accordion-btn");
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active-acc");
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 500 + "px"; // زيادة المساحة للمحتوى الديناميكي
+                }
+            });
+        }
+
+        // === 1. مؤشر الثبات القرآني (LocalStorage) ===
+        function loadStreak() {
+            const data = JSON.parse(localStorage.getItem('quranStreakData')) || { streak: 0, best: 0, lastDate: "" };
+            document.getElementById('current-streak').innerText = data.streak;
+            document.getElementById('best-streak').innerText = data.best;
+        }
+        function updateStreak(isRead) {
+            let data = JSON.parse(localStorage.getItem('quranStreakData')) || { streak: 0, best: 0, lastDate: "" };
+            const today = new Date().toDateString();
+
+            if (data.lastDate === today) {
+                alert("لقد قمت بتسجيل حالتك اليوم مسبقاً ✨");
+                return;
+            }
+
+            if (isRead) {
+                // حساب إذا كان اليوم هو التالي مباشرة
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                
+                if (data.lastDate === yesterday.toDateString()) {
+                    data.streak++;
+                } else {
+                    data.streak = 1; // بداية جديدة
+                }
+                
+                if (data.streak > data.best) data.best = data.streak;
+                data.lastDate = today;
+                alert("أحسنت! ثبتك الله وزادك من فضله 🎉");
+            } else {
+                data.streak = 0; // انقطاع السلسلة
+                data.lastDate = today;
+                alert("لا بأس، ابدأ من جديد غداً ولا تيأس 💪");
+            }
+
+            localStorage.setItem('quranStreakData', JSON.stringify(data));
+            loadStreak();
+        }
+        loadStreak(); // تحميل عند البدء
+
+        // === 2. عداد الختمة ===
+        function calcKhatma() {
+            const val = parseInt(document.getElementById('khatma-input').value);
+            if (!val || val < 0 || val > 30) return alert("الرجاء إدخال رقم صحيح بين 1 و 30");
+            
+            const percent = ((val / 30) * 100).toFixed(1);
+            const remaining = 30 - val;
+
+            document.getElementById('k-done').innerText = val + " جزء";
+            document.getElementById('k-left').innerText = remaining + " جزء";
+            document.getElementById('k-percent').innerText = percent;
+            document.getElementById('k-bar').style.width = percent + "%";
+            document.getElementById('khatma-result').style.display = 'block';
+        }
+
+        // === 3. دعاء الحفظ ===
+        function showDua(type) {
+            const box = document.getElementById('dua-text');
+            box.style.display = 'block';
+            if (type === 'before') {
+                box.innerHTML = "اللهم إني أسألك فهم النبيين، وحفظ المرسلين، والملائكة المقربين.<br>اللهم اجعل ألسنتنا عامرة بذكرك، وقلوبنا بخشيتك، وأسرارنا بطاعتك، إنك على كل شيء قدير.";
+            } else {
+                box.innerHTML = "اللهم إني أستودعك ما قرأت وما حفظت وما تعلمت، فرده عند حاجتي إليه، إنك على كل شيء قدير، حسبنا الله ونعم الوكيل.";
+            }
+        }
+
+        // === 4. وقفة مع آية (المنطق + عينة بيانات) ===
+        // توليد خيارات الأجزاء
+        const juzSelect = document.getElementById('quiz-juz');
+        for (let i = 1; i <= 30; i++) {
+            let op = document.createElement('option');
+            op.value = i; op.innerText = "الجزء " + i;
+            juzSelect.appendChild(op);
+        }
+
+        // بيانات السور (مختصرة للعملية)
+        const surahsByJuz = {
+            30: ["النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"],
+            29: ["الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات"],
+            28: ["المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم"],
+            1: ["الفاتحة", "البقرة (بداية)"]
         };
 
-        const menus = [
-            { id: 'home', text: '🏠 الرئيسية' },
-            { id: 'ranks', text: '🏆 الأوائل' },
-            { id: 'schedule', text: '📅 الجداول' },
-            { id: 'student', text: '📖 ركن الطالب' }, // الزر الجديد
-            { id: 'teachers', text: '👨‍🏫 المعلمون' },
-            { id: 'about', text: 'ℹ️ من نحن' },
-            { id: 'mobile', text: '📱 الجوال' }
+        // بنك الأسئلة (عينة)
+        const quizData = [
+            { juz: 30, surah: "النبأ", text: "عَمَّ يَتَسَاءَلُونَ (1) ...", answer: "عَنِ النَّبَإِ الْعَظِيمِ (2)", type: "أكمل الآية" },
+            { juz: 30, surah: "النازعات", text: "وَالنَّازِعَاتِ ...", answer: "غَرْقًا", type: "أكمل الآية" },
+            { juz: 30, surah: "عبس", text: "عَبَسَ وَتَوَلَّىٰ (1) أَن جَاءَهُ ...", answer: "الْأَعْمَىٰ", type: "أكمل الآية" },
+            { juz: 30, surah: "الإخلاص", text: "قُلْ هُوَ اللَّهُ أَحَدٌ", answer: "سورة الإخلاص", type: "ما اسم السورة؟" },
+            { juz: 29, surah: "الملك", text: "تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ ...", answer: "وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", type: "أكمل الآية" },
+            { juz: 29, surah: "القلم", text: "ن ۚ وَالْقَلَمِ وَمَا ...", answer: "يَسْطُرُونَ", type: "أكمل الآية" },
+            { juz: 1, surah: "الفاتحة", text: "الرَّحْمَٰنِ ...", answer: "الرَّحِيمِ", type: "أكمل الآية" }
         ];
 
-        // الملاحة
-        const navContainer = document.getElementById('nav-buttons');
-        menus.forEach(menu => {
-            const btn = document.createElement('button');
-            btn.className = 'nav-btn'; btn.innerText = menu.text;
-            btn.onclick = () => {
-                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-                document.getElementById(`section-${menu.id}`).classList.add('active');
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            };
-            navContainer.appendChild(btn);
-        });
-        navContainer.firstChild.classList.add('active');
+        function updateSurahList() {
+            const j = document.getElementById('quiz-juz').value;
+            const sSelect = document.getElementById('quiz-surah');
+            sSelect.innerHTML = '<option value="0">0 (عشوائي من الجزء)</option>';
+            
+            if (surahsByJuz[j]) {
+                surahsByJuz[j].forEach(s => {
+                    let op = document.createElement('option');
+                    op.value = s; op.innerText = "سورة " + s;
+                    sSelect.appendChild(op);
+                });
+            } else {
+                // إذا لم يكن الجزء في قاعدة البيانات المصغرة
+                let op = document.createElement('option');
+                op.text = "(السور غير متوفرة لهذا الجزء في العينة)";
+                sSelect.appendChild(op);
+            }
+        }
 
-        // === منطق حاسبة الختم ===
+        function generateQuestion() {
+            const j = parseInt(document.getElementById('quiz-juz').value);
+            const s = document.getElementById('quiz-surah').value;
+            
+            if (!j) return alert("الرجاء اختيار الجزء أولاً");
+
+            // فلترة الأسئلة
+            let filtered = quizData.filter(q => q.juz === j);
+            if (s !== "0") {
+                filtered = filtered.filter(q => q.surah === s);
+            }
+
+            if (filtered.length === 0) {
+                document.getElementById('q-text').innerText = "عذراً، لا توجد أسئلة مخزنة لهذا الاختيار حالياً. (هذه نسخة تجريبية)";
+                document.getElementById('q-answer').style.display = 'none';
+                document.getElementById('quiz-area').style.display = 'block';
+                return;
+            }
+
+            // اختيار عشوائي
+            const randomQ = filtered[Math.floor(Math.random() * filtered.length)];
+            
+            document.getElementById('q-text').innerHTML = `<span style="color:var(--primary-color)">${randomQ.type}:</span><br>${randomQ.text}`;
+            document.getElementById('q-answer').innerHTML = `<strong>الجواب:</strong> ${randomQ.answer}<br><small>${randomQ.surah} - الجزء ${randomQ.juz}</small>`;
+            document.getElementById('q-answer').style.display = 'none';
+            document.getElementById('quiz-area').style.display = 'block';
+        }
+
+
+        // === بقية الكود الأساسي (الحاسبات، الأخبار...) ===
+        // (نفس الكود السابق مع الاحتفاظ بالوظائف)
+        function populateSelect(id, min, max, labelSuffix) {
+            const select = document.getElementById(id);
+            let optionZero = document.createElement("option");
+            optionZero.value = 0; optionZero.text = "0 " + labelSuffix; select.appendChild(optionZero);
+            for(let i=min; i<=max; i++) {
+                if(i===0) continue;
+                let option = document.createElement("option");
+                option.value = i; option.text = i + " " + labelSuffix; select.appendChild(option);
+            }
+        }
+        populateSelect("target-days", 1, 30, "يوم");
+        populateSelect("target-months", 1, 12, "شهر");
+        populateSelect("target-years", 1, 10, "سنة");
+        const skipSelect = document.getElementById("skipped-parts");
+        for(let i=1; i<=29; i++) { let option = document.createElement("option"); option.value = i; option.text = i + " جزء"; skipSelect.appendChild(option); }
+
+        function calculateReversePlan() {
+            const days = parseInt(document.getElementById('target-days').value) || 0;
+            const months = parseInt(document.getElementById('target-months').value) || 0;
+            const years = parseInt(document.getElementById('target-years').value) || 0;
+            const skipped = parseInt(document.getElementById('skipped-parts').value) || 0;
+            const planType = document.querySelector('input[name="planType"]:checked').value;
+            const totalDaysAvailable = days + (months * 30) + (years * 365);
+            
+            if (totalDaysAvailable === 0) { alert("يرجى اختيار مدة زمنية ⚠️"); return; }
+
+            const remainingParts = 30 - skipped;
+            const totalPages = remainingParts * 20;
+            const dailyPages = totalPages / totalDaysAvailable;
+            let amountText = "";
+
+            if(dailyPages >= 20) { amountText = `<strong>${(dailyPages/20).toFixed(1)} جزء</strong> يومياً`; }
+            else if (dailyPages >= 1) { amountText = `<strong>${Math.ceil(dailyPages)} صفحات</strong> يومياً`; }
+            else { const lines = Math.ceil(dailyPages * 15); amountText = `<strong>${lines} أسطر</strong> يومياً`; }
+
+            const resultDiv = document.getElementById('reverse-calc-result');
+            resultDiv.style.display = "block";
+            const panel = resultDiv.closest('.accordion-panel');
+            panel.style.maxHeight = panel.scrollHeight + 500 + "px";
+            resultDiv.innerHTML = `<h3>🎯 خطتك المقترحة</h3><p>المطلوب منك (${planType}) بمعدل:</p><div style="font-size:1.5rem; color:var(--primary-color); margin:10px 0;">${amountText}</div>`;
+        }
+
+        // بيانات الحاسبة الأولى
         let selectedDays = 0;
-        
-        // توليد أزرار الأيام
         const daysOptionsDiv = document.getElementById('days-options');
-        const daysList = [
-            {v: 1, t: "يوم واحد"}, {v: 2, t: "يومان"}, {v: 3, t: "3 أيام"}, 
-            {v: 4, t: "4 أيام"}, {v: 5, t: "5 أيام"}, {v: 6, t: "6 أيام"}, {v: 7, t: "يومياً (7 أيام)"}
-        ];
+        const daysList = [{v: 1, t: "يوم واحد"}, {v: 2, t: "يومان"}, {v: 3, t: "3 أيام"}, {v: 4, t: "4 أيام"}, {v: 5, t: "5 أيام"}, {v: 6, t: "6 أيام"}, {v: 7, t: "يومياً (7 أيام)"}];
         daysList.forEach(d => {
-            const btn = document.createElement('button');
-            btn.className = 'calc-btn'; btn.innerText = d.t;
-            btn.onclick = () => {
-                selectedDays = d.v;
-                document.getElementById('calc-step-1').style.display = 'none';
-                document.getElementById('calc-step-2').style.display = 'block';
-            };
+            const btn = document.createElement('button'); btn.className = 'calc-btn'; btn.innerText = d.t;
+            btn.onclick = () => { selectedDays = d.v; document.getElementById('calc-step-1').style.display = 'none'; document.getElementById('calc-step-2').style.display = 'block'; const panel = document.getElementById('calc-step-2').closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px"; };
             daysOptionsDiv.appendChild(btn);
         });
-
-        // توليد أزرار الكمية
         const amountOptionsDiv = document.getElementById('amount-options');
-        const amountsList = [
-            {v: 0.5, t: "نصف صفحة"}, {v: 1, t: "صفحة واحدة"}, {v: 2, t: "صفحتان"}, 
-            {v: 3, t: "3 صفحات"}, {v: 20, t: "جزء كامل (20 صفحة)"}
-        ];
+        const amountsList = [{v: 0.5, t: "نصف صفحة"}, {v: 1, t: "صفحة واحدة"}, {v: 2, t: "صفحتان"}, {v: 3, t: "3 صفحات"}, {v: 20, t: "جزء كامل (20 صفحة)"}];
         amountsList.forEach(a => {
-            const btn = document.createElement('button');
-            btn.className = 'calc-btn'; btn.innerText = a.t;
-            btn.onclick = () => calculatePlan(a.v);
-            amountOptionsDiv.appendChild(btn);
+            const btn = document.createElement('button'); btn.className = 'calc-btn'; btn.innerText = a.t;
+            btn.onclick = () => calculatePlan(a.v); amountOptionsDiv.appendChild(btn);
         });
-        
-        // زر "رقم آخر"
-        const customBtn = document.createElement('button');
-        customBtn.className = 'calc-btn'; customBtn.innerText = "✏️ رقم آخر";
-        customBtn.onclick = () => document.getElementById('custom-amount-div').style.display = 'block';
+        const customBtn = document.createElement('button'); customBtn.className = 'calc-btn'; customBtn.innerText = "✏️ رقم آخر";
+        customBtn.onclick = () => { document.getElementById('custom-amount-div').style.display = 'block'; const panel = document.getElementById('custom-amount-div').closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px"; };
         amountOptionsDiv.appendChild(customBtn);
 
         function calculatePlan(pagesPerDay) {
             pagesPerDay = parseFloat(pagesPerDay);
             if(!pagesPerDay || pagesPerDay <= 0) return alert("الرجاء إدخال رقم صحيح");
-
             const totalPages = 604;
             const weeklyPages = selectedDays * pagesPerDay;
             const weeksNeeded = totalPages / weeklyPages;
             const totalDaysNeeded = Math.ceil(weeksNeeded * 7);
-            
-            // تحويل للأشهر والسنوات
             let durationText = "";
-            if (totalDaysNeeded < 30) {
-                durationText = `${totalDaysNeeded} يوم`;
-            } else if (totalDaysNeeded < 365) {
-                const months = Math.floor(totalDaysNeeded / 30);
-                const days = totalDaysNeeded % 30;
-                durationText = `${months} شهر و ${days} يوم`;
-            } else {
-                const years = Math.floor(totalDaysNeeded / 365);
-                const months = Math.floor((totalDaysNeeded % 365) / 30);
-                durationText = `${years} سنة و ${months} شهر`;
-            }
-
+            if (totalDaysNeeded < 30) durationText = `${totalDaysNeeded} يوم`;
+            else if (totalDaysNeeded < 365) { const months = Math.floor(totalDaysNeeded / 30); const days = totalDaysNeeded % 30; durationText = `${months} شهر و ${days} يوم`; }
+            else { const years = Math.floor(totalDaysNeeded / 365); const months = Math.floor((totalDaysNeeded % 365) / 30); durationText = `${years} سنة و ${months} شهر`; }
             const resultDiv = document.getElementById('calc-result');
             resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `
-                <h3>🎉 النتيجة المتوقعة</h3>
-                <p>معدل الحفظ الأسبوعي: <strong>${weeklyPages} صفحات</strong></p>
-                <p style="font-size:1.2rem; color:var(--primary-color); font-weight:bold;">
-                    ستختم القرآن كاملاً بإذن الله خلال:<br>
-                    ⏳ ${durationText}
-                </p>
-                <p style="font-size:0.9rem; color:gray">استعن بالله ولا تعجز 💪</p>
-            `;
-            
-            document.getElementById('calc-step-2').style.display = 'none';
-            document.getElementById('reset-calc').style.display = 'block';
+            resultDiv.innerHTML = `<h3>🎉 النتيجة المتوقعة</h3><p>ستختم خلال: ⏳ ${durationText}</p>`;
+            document.getElementById('calc-step-2').style.display = 'none'; document.getElementById('reset-calc').style.display = 'block';
+            const panel = resultDiv.closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px";
         }
+        function resetCalc() { selectedDays = 0; document.getElementById('calc-result').style.display = 'none'; document.getElementById('reset-calc').style.display = 'none'; document.getElementById('calc-step-2').style.display = 'none'; document.getElementById('custom-amount-div').style.display = 'none'; document.getElementById('calc-step-1').style.display = 'block'; const panel = document.getElementById('calc-step-1').closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px"; }
 
-        function resetCalc() {
-            selectedDays = 0;
-            document.getElementById('calc-result').style.display = 'none';
-            document.getElementById('reset-calc').style.display = 'none';
-            document.getElementById('calc-step-2').style.display = 'none';
-            document.getElementById('custom-amount-div').style.display = 'none';
-            document.getElementById('calc-step-1').style.display = 'block';
-            document.getElementById('custom-pages').value = '';
-        }
-
-        // بقية السكريبت (الأخبار، الأوائل، الجداول...)
-        siteData.news.forEach(n => {
-            document.getElementById('news-list').innerHTML += `
-                <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
-                    <strong>📅 ${n.date}</strong><br>${n.text}
-                    ${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}
-                </div>`;
+        // بقية البيانات (الأخبار، الأوائل...)
+        const siteData = {
+            news: [ { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] }, { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] } ],
+            ranks: [ { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] }, { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] }, { ring: "حلقة عثمان بن عفان", students: ["بدر ناصر", "ريان يوسف", "زياد فؤاد"] }, { ring: "حلقة علي بن أبي طالب", students: ["حمزة صالح", "أنس محمود", "طلال بكر"] }, { ring: "حلقة الزبير بن العوام", students: ["معاذ إياد", "تميم منصور", "يحيى زكريا"] } ],
+            teachers: [ { name: "الشيخ عبدالله", job: "المشرف العام" }, { name: "أ. أحمد محمد", job: "حلقة أبو بكر" }, { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" } ],
+            afternoonRings: [ { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" } ],
+            eveningRings: [ { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" }, { name: "حلقة عثمان بن عفان", time: "بعد المغرب" }, { name: "حلقة علي بن أبي طالب", time: "بعد المغرب" }, { name: "حلقة الزبير بن العوام", time: "بعد المغرب" } ]
+        };
+        const menus = [ { id: 'home', text: '🏠 الرئيسية' }, { id: 'ranks', text: '🏆 الأوائل' }, { id: 'schedule', text: '📅 الجداول' }, { id: 'student', text: '📖 ركن الطالب' }, { id: 'teachers', text: '👨‍🏫 المعلمون' }, { id: 'about', text: 'ℹ️ من نحن' }, { id: 'mobile', text: '📱 الجوال' } ];
+        const navContainer = document.getElementById('nav-buttons');
+        menus.forEach(menu => {
+            const btn = document.createElement('button'); btn.className = 'nav-btn'; btn.innerText = menu.text;
+            btn.onclick = () => { document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active')); document.getElementById(`section-${menu.id}`).classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); };
+            navContainer.appendChild(btn);
         });
-        function toggleWinners(id) {
-            const el = document.getElementById(`win-${id}`);
-            if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-        }
-
-        siteData.ranks.forEach(r => {
-            let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
-            document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
-        });
-
-        function createTable(ringName, baseTime, isEvening) {
-            let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
-            let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
-            days.forEach(day => {
-                let timeDisplay = baseTime;
-                if (isEvening && day === "الخميس") timeDisplay = "إلى أذان العشاء";
-                table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`;
-            });
-            document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
-        }
-
-        siteData.afternoonRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => createTable(ring.name, ring.time, false);
-            document.getElementById('ring-selectors-afternoon').appendChild(b);
-        });
-
-        siteData.eveningRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => createTable(ring.name, ring.time, true);
-            document.getElementById('ring-selectors-evening').appendChild(b);
-        });
-
-        siteData.teachers.forEach(t => {
-            document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
-        });
-
-        const verses = [
-            "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾",
-            "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾",
-            "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾", "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾", "﴿ وَاذْكُر رَّبَّكَ كَثِيرًا ﴾",
-            "﴿ وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ﴾", "﴿ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ ﴾", "﴿ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾",
-            "﴿ إِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾", "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾", "﴿ وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ ﴾",
-            "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ ﴾", "﴿ إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ ﴾", "﴿ وَاللَّهُ خَيْرُ الْحَافِظِينَ ﴾",
-            "﴿ وَهُوَ أَرْحَمُ الرَّاحِمِينَ ﴾", "﴿ فَاذْكُرُونِي أَذْكُرْكُمْ ﴾", "﴿ وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ ﴾",
-            "﴿ إِنَّ اللَّهَ نِعِمَّا يَعِظُكُم بِهِ ﴾", "﴿ وَاللَّهُ يَهْدِي مَن يَشَاءُ ﴾", "﴿ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ ﴾",
-            "﴿ وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾", "﴿ وَمَا عِندَ اللَّهِ خَيْرٌ وَأَبْقَىٰ ﴾", "﴿ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ﴾"
-        ];
+        navContainer.firstChild.classList.add('active');
+        siteData.news.forEach(n => { document.getElementById('news-list').innerHTML += `<div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})"><strong>📅 ${n.date}</strong><br>${n.text}${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}</div>`; });
+        function toggleWinners(id) { const el = document.getElementById(`win-${id}`); if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block'; }
+        siteData.ranks.forEach(r => { let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join(''); document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`; });
+        function createTable(ringName, baseTime, isEvening) { let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"]; let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`; days.forEach(day => { let timeDisplay = baseTime; if (isEvening && day === "الخميس") timeDisplay = "إلى أذان العشاء"; table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`; }); document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`; }
+        siteData.afternoonRings.forEach(ring => { const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name; b.onclick = () => createTable(ring.name, ring.time, false); document.getElementById('ring-selectors-afternoon').appendChild(b); });
+        siteData.eveningRings.forEach(ring => { const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name; b.onclick = () => createTable(ring.name, ring.time, true); document.getElementById('ring-selectors-evening').appendChild(b); });
+        siteData.teachers.forEach(t => { document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`; });
+        const verses = [ "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾", "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾", "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾", "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾" ];
         const verseDisplay = document.getElementById('verse-display');
-        function showRandomVerse() {
-            const randomVerse = verses[Math.floor(Math.random() * verses.length)];
-            verseDisplay.innerText = randomVerse;
-            verseDisplay.classList.add('visible');
-            setTimeout(() => { verseDisplay.classList.remove('visible'); }, 8000);
-        }
-        showRandomVerse();
-        setInterval(showRandomVerse, 38000);
+        function showRandomVerse() { const randomVerse = verses[Math.floor(Math.random() * verses.length)]; verseDisplay.innerText = randomVerse; verseDisplay.classList.add('visible'); setTimeout(() => { verseDisplay.classList.remove('visible'); }, 8000); }
+        showRandomVerse(); setInterval(showRandomVerse, 38000);
     </script>
 </body>
 </html>
