@@ -7,25 +7,27 @@
     
     <link rel="icon" type="image/png" href="1768411699920.png">
     <link rel="apple-touch-icon" href="1768411699920.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            -[span_4](start_span)-primary-color: #047857;[span_4](end_span)
-            -[span_5](start_span)-accent-color: #fbbf24;[span_5](end_span)
-            -[span_6](start_span)-text-dark: #1f2937;[span_6](end_span)
-            -[span_7](start_span)-bg-light: #f3f4f6;[span_7](end_span)
+            --primary-color: #047857;
+            --accent-color: #fbbf24;
+            --text-dark: #1f2937;
+            --bg-light: #f3f4f6;
         }
-        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; [span_8](start_span)}
+        body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; }
         
+        /* الشعار كخلفية خفيفة */
         body::before {
             content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80%; height: 60%; background: url('1768411699920.png') center/contain no-repeat;
             opacity: 0.05; z-index: -1;
         }
 
-        header { background-color: var(--primary-color); color: white; padding: 20px; text-align: center; position: relative; }[span_8](end_span)
-        header h1 { margin: 0; font-family: 'Amiri', serif; [span_9](start_span)}
+        header { background-color: var(--primary-color); color: white; padding: 20px; text-align: center; position: relative; }
+        header h1 { margin: 0; font-family: 'Amiri', serif; }
 
         .video-container {
             position: absolute; top: 5px; left: 5px;
@@ -35,33 +37,34 @@
         .video-container video { width: 100%; height: 100%; object-fit: cover; }
 
         .nav-container {
-            background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;[span_9](end_span)
+            background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;
             display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-            [span_10](start_span)position: sticky; top: 0; z-index: 100;[span_10](end_span)
+            position: sticky; top: 0; z-index: 100;
         }
 
         .nav-btn {
-            [span_11](start_span)background: none; border: 2px solid var(--primary-color); color: var(--primary-color);[span_11](end_span)
+            background: none; border: 2px solid var(--primary-color); color: var(--primary-color);
             padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;
         }
-        .nav-btn.active { background-color: var(--primary-color); color: white; [span_12](start_span)}
+        .nav-btn.active { background-color: var(--primary-color); color: white; }
 
-        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }[span_12](end_span)
-        .page-section { display: none; animation: fadeIn 0.5s; [span_13](start_span)}
-        .page-section.active { display: block; }[span_13](end_span)
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); [span_14](start_span)} }[span_14](end_span)
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .page-section { display: none; animation: fadeIn 0.5s; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); [span_15](start_span)}
+        .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .clickable { cursor: pointer; border-right: 4px solid var(--accent-color); }
+        
+        .winner-list { display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; border: 1px dashed var(--primary-color); }
+
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 10px; }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background-color: var(--primary-color); color: white; }
+
         .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
-        
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 10px; }[span_15](end_span)
-        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; [span_16](start_span)}
-        th { background-color: var(--primary-color); color: white; }[span_16](end_span)
 
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 20px; }
-        .contact-btn { padding: 12px; border-radius: 10px; text-decoration: none; color: white; text-align: center; font-weight: bold; font-size: 0.9rem; }
-        
-        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; [span_17](start_span)}
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -70,128 +73,178 @@
         <div class="video-container">
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
-        <h1>حلقات الثريا</h1>[span_17](end_span)
-        [span_18](start_span)<p>لتحفيظ القرآن الكريم - غيل باوزير</p>[span_18](end_span)
+        <h1>حلقات الثريا</h1>
+        <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
     </header>
 
     <div class="nav-container" id="nav-buttons"></div>
 
     <div class="container">
         
-        <div id="section-about" class="page-section">
-            [span_19](start_span)<h2 style="color:var(--primary-color)">📖 من نحن</h2>[span_19](end_span)
-            <div class="card">
-                [span_20](start_span)[span_21](start_span)موقع حلقات تحفيظ القرآن الكريم "مدرسة الثريا" يهدف إلى بناء جيل حافظ لكتاب الله، متمسك بسنة رسوله صلى الله عليه وسلم، في منطقة غيل باوزير بحضرموت[span_20](end_span)[span_21](end_span).
-            </div>
-            <div class="contact-grid">
-                <a href="tel:000000000" class="contact-btn" style="background:#059669">📞 اتصال</a>
-                <a href="https://wa.me/000000000" class="contact-btn" style="background:#25D366">💬 واتساب</a>
-                <a href="https://instagram.com/" class="contact-btn" style="background:#E1306C">📸 انستقرام</a>
-                <a href="#" class="contact-btn" style="background:#3b82f6">📍 موقعنا</a>
-            </div>
-        </div>
-
-        [span_22](start_span)<div id="section-home" class="page-section active">[span_22](end_span)
-            [span_23](start_span)<h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>[span_23](end_span)
+        <div id="section-home" class="page-section active">
+            <h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>
             <div id="news-list"></div>
+
             <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
             <div class="card" style="border-right: 4px solid var(--accent-color);">
-                <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "المنجية"؟</p>
+                <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "سنام القرآن"؟</p>
                 <div style="background: #fffbeb; padding: 10px; border-radius: 8px;">
                     <strong>🏆 الفائز السابق:</strong> <span style="color: var(--primary-color);">عمر بن علي باوزير</span>
                 </div>
             </div>
         </div>
 
-        [span_24](start_span)<div id="section-schedule" class="page-section">[span_24](end_span)
-            [span_25](start_span)<h2 style="color:var(--primary-color)">📅 الجداول الأسبوعية</h2>[span_25](end_span)
-            <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
-            <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
-            <div class="group-title">🌙 حلقات بعد المغرب (إلى العشاء)</div>
-            <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
-            <div id="schedule-display"></div>
-        </div>
-
         <div id="section-ranks" class="page-section">
             <h2 style="color:var(--primary-color)">🏆 أوائل الحلقات</h2>
             <div id="ranks-list"></div>
         </div>
-        [span_26](start_span)<div id="section-teachers" class="page-section">[span_26](end_span)
-            [span_27](start_span)<h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>[span_27](end_span)
+
+        <div id="section-schedule" class="page-section">
+            <h2 style="color:var(--primary-color)">📅 الجداول الدراسية</h2>
+            
+            <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
+            <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
+            <div class="group-title">🌙 حلقات بعد المغرب (من المغرب إلى العشاء)</div>
+            <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
+            <div id="schedule-display"></div>
+            
+            <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
+            <div class="card" style="border-right-color: #ef4444;">
+                <ul style="margin:0; padding-right:20px;">
+                    <li>يوم الجمعة (إجازة أسبوعية)</li>
+                    <li>عيد الأضحى وعيد الفطر</li>
+                    <li>قبل الاختبارات المدرسية (الفصلية والنهائية) بأسبوع</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="section-teachers" class="page-section">
+            <h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>
             <div id="teachers-list"></div>
+        </div>
+
+        <div id="section-mobile" class="page-section">
+            <h2 style="color:var(--primary-color)">📱 تطبيق الجوال</h2>
+            <div class="card">
+                سيتم إطلاق تطبيق حلقات الثريا قريباً بإذن الله.
+            </div>
         </div>
 
     </div>
 
-    [span_28](start_span)<footer>جميع الحقوق محفوظة © 2026</footer>[span_28](end_span)
+    <footer>جميع الحقوق محفوظة © 2026</footer>
 
     <script>
         const siteData = {
-            [span_29](start_span)afternoonRings: [{ name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" }],[span_29](end_span)
+            news: [
+                { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
+                { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] }
+            ],
+            ranks: [
+                { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] },
+                { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] },
+                { ring: "حلقة عثمان بن عفان", students: ["بدر ناصر", "ريان يوسف", "زياد فؤاد"] },
+                { ring: "حلقة علي بن أبي طالب", students: ["حمزة صالح", "أنس محمود", "طلال بكر"] },
+                { ring: "حلقة الزبير بن العوام", students: ["معاذ إياد", "تميم منصور", "يحيى زكريا"] }
+            ],
+            teachers: [
+                { name: "الشيخ عبدالله", job: "المشرف العام" },
+                { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
+                { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" }
+            ],
+            // بيانات الجداول الجديدة
+            afternoonRings: [
+                { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" }
+            ],
             eveningRings: [
                 { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" },
                 { name: "حلقة عثمان بن عفان", time: "بعد المغرب" },
                 { name: "حلقة علي بن أبي طالب", time: "بعد المغرب" },
                 { name: "حلقة الزبير بن العوام", time: "بعد المغرب" }
-            ],
-            notes: {
-                [span_30](start_span)"السبت": "حفظ مع حديث عهد",[span_30](end_span)
-                [span_31](start_span)"الأحد": "حفظ مع حديث عهد",[span_31](end_span)
-                "الاثنين": "درس",
-                [span_32](start_span)"الثلاثاء": "مراجعة",[span_32](end_span)
-                [span_33](start_span)"الأربعاء": "مراجعة",[span_33](end_span)
-                "الخميس": "قراءه قرآن وتلقين"
-            }
+            ]
         };
 
         const menus = [
-            { id: 'about', text: '📖 من نحن' },
-            [span_34](start_span){ id: 'home', text: '🏠 الرئيسية' },[span_34](end_span)
+            { id: 'home', text: '🏠 الرئيسية' },
             { id: 'ranks', text: '🏆 الأوائل' },
-            [span_35](start_span){ id: 'schedule', text: '📅 الجداول' },[span_35](end_span)
-            [span_36](start_span){ id: 'teachers', text: '👨‍🏫 المعلمون' }[span_36](end_span)
+            { id: 'schedule', text: '📅 الجداول' },
+            { id: 'teachers', text: '👨‍🏫 المعلمون' },
+            { id: 'mobile', text: '📱 الجوال' }
         ];
 
-        // الملاحة وبناء الأزرار
-        [span_37](start_span)const navContainer = document.getElementById('nav-buttons');[span_37](end_span)
+        // الملاحة بين الأقسام
+        const navContainer = document.getElementById('nav-buttons');
         menus.forEach(menu => {
-            [span_38](start_span)const btn = document.createElement('button');[span_38](end_span)
-            [span_39](start_span)btn.className = 'nav-btn';[span_39](end_span)
-            [span_40](start_span)btn.innerText = menu.text;[span_40](end_span)
+            const btn = document.createElement('button');
+            btn.className = 'nav-btn';
+            btn.innerText = menu.text;
             btn.onclick = () => {
-                [span_41](start_span)document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));[span_41](end_span)
-                [span_42](start_span)document.getElementById(`section-${menu.id}`).classList.add('active');[span_42](end_span)
-                [span_43](start_span)document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));[span_43](end_span)
-                [span_44](start_span)btn.classList.add('active');[span_44](end_span)
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(`section-${menu.id}`).classList.add('active');
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
             };
-            [span_45](start_span)navContainer.appendChild(btn);[span_45](end_span)
+            navContainer.appendChild(btn);
+        });
+        navContainer.firstChild.classList.add('active');
+
+        // عرض الأخبار
+        siteData.news.forEach(n => {
+            document.getElementById('news-list').innerHTML += `
+                <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
+                    <strong>📅 ${n.date}</strong><br>${n.text}
+                    ${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}
+                </div>`;
+        });
+        function toggleWinners(id) {
+            const el = document.getElementById(`win-${id}`);
+            if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // عرض الأوائل
+        siteData.ranks.forEach(r => {
+            let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
+            document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
         });
 
-        function showSchedule(ringName, baseTime, isEvening) {
-            [span_46](start_span)let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];[span_46](end_span)
-            [span_47](start_span)let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;[span_47](end_span)
+        // وظيفة بناء الجداول
+        function createTable(ringName, baseTime, isEvening) {
+            let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
+            let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
+            
             days.forEach(day => {
                 let timeDisplay = baseTime;
-                if (isEvening && day === "الخميس") timeDisplay = "إلى أذان العشاء";
-                [span_48](start_span)[span_49](start_span)table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>${siteData.notes[day]}</td></tr>`;[span_48](end_span)[span_49](end_span)
+                // شرط يوم الخميس لحلقات المغرب
+                if (isEvening && day === "الخميس") {
+                    timeDisplay = "إلى أذان العشاء";
+                }
+                table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`;
             });
             document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
         }
 
-        // بناء أزرار الحلقات
+        // بناء أزرار حلقات العصر
         siteData.afternoonRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => showSchedule(ring.name, ring.time, false);
+            const b = document.createElement('button');
+            b.className = 'nav-btn'; b.innerText = ring.name;
+            b.onclick = () => createTable(ring.name, ring.time, false);
             document.getElementById('ring-selectors-afternoon').appendChild(b);
         });
+
+        // بناء أزرار حلقات المغرب
         siteData.eveningRings.forEach(ring => {
-            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
-            b.onclick = () => showSchedule(ring.name, ring.time, true);
+            const b = document.createElement('button');
+            b.className = 'nav-btn'; b.innerText = ring.name;
+            b.onclick = () => createTable(ring.name, ring.time, true);
             document.getElementById('ring-selectors-evening').appendChild(b);
         });
 
-        // تعبئة البيانات الأخرى (الأخبار، المعلمين، الأوائل) كالسابق...
-        [span_50](start_span)document.getElementById('news-list').innerHTML = `<div class="card"><strong>📅 15-1</strong><br>تم تكريم الطلاب المتميزين لهذا الأسبوع.</div>`;[span_50](end_span)
+        // عرض المعلمين
+        siteData.teachers.forEach(t => {
+            document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
+        });
     </script>
 </body>
 </html>
