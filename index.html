@@ -19,7 +19,7 @@
         }
         body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; }
         
-        /* الشعار كخلفية خفيفة جداً للموقع */
+        /* الشعار كخلفية خفيفة */
         body::before {
             content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80%; height: 60%; background: url('1768411699920.png') center/contain no-repeat;
@@ -29,7 +29,6 @@
         header { background-color: var(--primary-color); color: white; padding: 20px; text-align: center; position: relative; }
         header h1 { margin: 0; font-family: 'Amiri', serif; }
 
-        /* الفيديو بحجم صغير جداً في الزاوية */
         .video-container {
             position: absolute; top: 5px; left: 5px;
             width: 50px; height: 50px; border: 1.5px solid var(--accent-color);
@@ -57,12 +56,13 @@
         .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .clickable { cursor: pointer; border-right: 4px solid var(--accent-color); }
         
-        .rank-card { border-right: 4px solid var(--accent-color); }
         .winner-list { display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-radius: 8px; border: 1px dashed var(--primary-color); }
 
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; margin-top: 10px; }
         th, td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
         th { background-color: var(--primary-color); color: white; }
+
+        .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
 
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
     </style>
@@ -73,8 +73,8 @@
         <div class="video-container">
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
-        <h1 id="site-title">حلقات الثريا</h1>
-        <p>لتحفيظ القرآن الكريم - حضرموت</p>
+        <h1>حلقات الثريا</h1>
+        <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
     </header>
 
     <div class="nav-container" id="nav-buttons"></div>
@@ -87,7 +87,7 @@
 
             <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
             <div class="card" style="border-right: 4px solid var(--accent-color);">
-                <p><strong>سؤال الأسبوع:</strong> من هو الصحابي الذي اهتز لموته عرش الرحمن؟</p>
+                <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "سنام القرآن"؟</p>
                 <div style="background: #fffbeb; padding: 10px; border-radius: 8px;">
                     <strong>🏆 الفائز السابق:</strong> <span style="color: var(--primary-color);">عمر بن علي باوزير</span>
                 </div>
@@ -95,13 +95,19 @@
         </div>
 
         <div id="section-ranks" class="page-section">
-            <h2 style="color:var(--primary-color)">🏆 اوائل حلقات السنه</h2>
+            <h2 style="color:var(--primary-color)">🏆 أوائل الحلقات</h2>
             <div id="ranks-list"></div>
         </div>
 
         <div id="section-schedule" class="page-section">
-            <h2 style="color:var(--primary-color)">📅 الجداول الأسبوعية</h2>
-            <div id="ring-selectors" style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;"></div>
+            <h2 style="color:var(--primary-color)">📅 الجداول الدراسية</h2>
+            
+            <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
+            <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
+            <div class="group-title">🌙 حلقات بعد المغرب (من المغرب إلى العشاء)</div>
+            <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
             <div id="schedule-display"></div>
             
             <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
@@ -122,7 +128,7 @@
         <div id="section-mobile" class="page-section">
             <h2 style="color:var(--primary-color)">📱 تطبيق الجوال</h2>
             <div class="card">
-                سيتم إطلاق تطبيق حلقات الثريا قريباً بإذن الله لمتابعة الحفظ بشكل أدق.
+                سيتم إطلاق تطبيق حلقات الثريا قريباً بإذن الله.
             </div>
         </div>
 
@@ -133,12 +139,12 @@
     <script>
         const siteData = {
             news: [
-                { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين لهذا الأسبوع (اضغط لمشاهدة الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
-                { id: 2, date: "12-1", text: "تنبيه: بداية التسجيل للدورة الصيفية الجديدة.", winners: [] }
+                { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] },
+                { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] }
             ],
             ranks: [
-                { ring: "حلقة أبو بكر الصديق", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] },
-                { ring: "حلقة عمر بن الخطاب", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] },
+                { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] },
+                { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] },
                 { ring: "حلقة عثمان بن عفان", students: ["بدر ناصر", "ريان يوسف", "زياد فؤاد"] },
                 { ring: "حلقة علي بن أبي طالب", students: ["حمزة صالح", "أنس محمود", "طلال بكر"] },
                 { ring: "حلقة الزبير بن العوام", students: ["معاذ إياد", "تميم منصور", "يحيى زكريا"] }
@@ -148,15 +154,15 @@
                 { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
                 { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" }
             ],
-            rings: [
-                { name: "حلقة عمر", schedule: [
-                    { day: "السبت", time: "العصر", note: "حفظ" }, { day: "الأحد", time: "العصر", note: "مراجعة" }, { day: "الاثنين", time: "المغرب", note: "تجويد" },
-                    { day: "الثلاثاء", time: "العصر", note: "حفظ" }, { day: "الأربعاء", time: "العصر", note: "تسميع" }, { day: "الخميس", time: "العصر", note: "مراجعة" }
-                ]},
-                { name: "حلقة أبو بكر", schedule: [
-                    { day: "السبت", time: "المغرب", note: "تلقين" }, { day: "الأحد", time: "المغرب", note: "حفظ" }, { day: "الاثنين", time: "العصر", note: "مراجعة" },
-                    { day: "الثلاثاء", time: "المغرب", note: "تجويد" }, { day: "الأربعاء", time: "المغرب", note: "حفظ" }, { day: "الخميس", time: "العصر", note: "اختبار" }
-                ]}
+            // بيانات الجداول الجديدة
+            afternoonRings: [
+                { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" }
+            ],
+            eveningRings: [
+                { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" },
+                { name: "حلقة عثمان بن عفان", time: "بعد المغرب" },
+                { name: "حلقة علي بن أبي طالب", time: "بعد المغرب" },
+                { name: "حلقة الزبير بن العوام", time: "بعد المغرب" }
             ]
         };
 
@@ -168,25 +174,23 @@
             { id: 'mobile', text: '📱 الجوال' }
         ];
 
-        // إنشاء الأزرار
+        // الملاحة بين الأقسام
         const navContainer = document.getElementById('nav-buttons');
         menus.forEach(menu => {
             const btn = document.createElement('button');
             btn.className = 'nav-btn';
             btn.innerText = menu.text;
-            btn.onclick = () => switchTab(menu.id, btn);
+            btn.onclick = () => {
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(`section-${menu.id}`).classList.add('active');
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
             navContainer.appendChild(btn);
         });
         navContainer.firstChild.classList.add('active');
 
-        function switchTab(id, btn) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(`section-${id}`).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        // تعبئة الأخبار مع ميزة إظهار الأسماء
+        // عرض الأخبار
         siteData.news.forEach(n => {
             document.getElementById('news-list').innerHTML += `
                 <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
@@ -194,31 +198,50 @@
                     ${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}
                 </div>`;
         });
-
         function toggleWinners(id) {
             const el = document.getElementById(`win-${id}`);
             if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
 
-        // تعبئة الأوائل
+        // عرض الأوائل
         siteData.ranks.forEach(r => {
             let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
-            document.getElementById('ranks-list').innerHTML += `<div class="card rank-card"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
+            document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
         });
 
-        // تعبئة الجداول
-        siteData.rings.forEach((ring, idx) => {
+        // وظيفة بناء الجداول
+        function createTable(ringName, baseTime, isEvening) {
+            let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
+            let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
+            
+            days.forEach(day => {
+                let timeDisplay = baseTime;
+                // شرط يوم الخميس لحلقات المغرب
+                if (isEvening && day === "الخميس") {
+                    timeDisplay = "إلى أذان العشاء";
+                }
+                table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`;
+            });
+            document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
+        }
+
+        // بناء أزرار حلقات العصر
+        siteData.afternoonRings.forEach(ring => {
             const b = document.createElement('button');
-            b.className = 'nav-btn'; b.style.margin = '2px'; b.innerText = ring.name;
-            b.onclick = () => {
-                let table = `<h3>${ring.name}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
-                ring.schedule.forEach(row => { table += `<tr><td>${row.day}</td><td>${row.time}</td><td>${row.note}</td></tr>`; });
-                document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
-            };
-            document.getElementById('ring-selectors').appendChild(b);
+            b.className = 'nav-btn'; b.innerText = ring.name;
+            b.onclick = () => createTable(ring.name, ring.time, false);
+            document.getElementById('ring-selectors-afternoon').appendChild(b);
         });
 
-        // تعبئة المعلمين
+        // بناء أزرار حلقات المغرب
+        siteData.eveningRings.forEach(ring => {
+            const b = document.createElement('button');
+            b.className = 'nav-btn'; b.innerText = ring.name;
+            b.onclick = () => createTable(ring.name, ring.time, true);
+            document.getElementById('ring-selectors-evening').appendChild(b);
+        });
+
+        // عرض المعلمين
         siteData.teachers.forEach(t => {
             document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
         });
