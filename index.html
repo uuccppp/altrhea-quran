@@ -19,7 +19,6 @@
         }
         body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-dark); position: relative; }
         
-        /* الشعار كخلفية خفيفة */
         body::before {
             content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80%; height: 60%; background: url('1768411699920.png') center/contain no-repeat;
@@ -35,6 +34,18 @@
             border-radius: 8px; overflow: hidden; z-index: 1000;
         }
         .video-container video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ✨ تنسيق شريط الآيات الجديد ✨ */
+        .verse-ticker {
+            font-family: 'Amiri', serif;
+            color: var(--accent-color); /* لون ذهبي */
+            font-size: 1.1rem;
+            margin-top: 10px;
+            min-height: 30px; /* لحجز مكان للنص */
+            transition: opacity 1.5s ease-in-out; /* حركة ظهور واختفاء ناعمة */
+            opacity: 0; /* مخفي افتراضياً */
+        }
+        .verse-ticker.visible { opacity: 1; }
 
         .nav-container {
             background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;
@@ -64,45 +75,18 @@
 
         .group-title { background: #e2e8f0; padding: 8px; border-radius: 5px; margin-top: 15px; font-weight: bold; color: var(--primary-color); }
 
-        /* تنسيق قسم من نحن */
         .poetic-text {
-            text-align: center;
-            line-height: 2;
-            color: #374151;
-            font-size: 1.05rem;
-            background: linear-gradient(to bottom, #ffffff, #f9fafb);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #e5e7eb;
-            margin-bottom: 20px;
+            text-align: center; line-height: 2; color: #374151; font-size: 1.05rem;
+            background: linear-gradient(to bottom, #ffffff, #f9fafb); padding: 20px;
+            border-radius: 15px; border: 1px solid #e5e7eb; margin-bottom: 20px;
         }
-        .quran-verse {
-            color: var(--primary-color);
-            font-family: 'Amiri', serif;
-            font-size: 1.4rem;
-            margin-top: 15px;
-            display: block;
-        }
+        .quran-verse { color: var(--primary-color); font-family: 'Amiri', serif; font-size: 1.4rem; margin-top: 15px; display: block; }
 
-        /* تنسيق أزرار التواصل الجديدة */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .contact-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            text-decoration: none;
-            transition: transform 0.2s;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 15px; border-radius: 12px; color: white; text-decoration: none;
+            transition: transform 0.2s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .contact-box:active { transform: scale(0.95); }
         .contact-icon { font-size: 1.5rem; margin-bottom: 5px; }
@@ -123,6 +107,8 @@
         </div>
         <h1>حلقات الثريا</h1>
         <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
+        
+        <div id="verse-display" class="verse-ticker"></div>
     </header>
 
     <div class="nav-container" id="nav-buttons"></div>
@@ -180,61 +166,31 @@
                 نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
                 حيث لا يُحفظ القرآن بالألسنة فقط،<br>
                 بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
-                
                 نؤمن أن القرآن هو الحياة،<br>
                 هو النور حين تشتد العتمة،<br>
                 وهو الثبات حين تتقاذف الفتن القلوب،<br>
-                ومن أجله نغرس في أبنائنا حبّه<br>
-                قبل أن نطالبهم بحفظه.<br><br>
-
-                في حلقاتنا لا نعدّ الصفحات،<br>
-                بل نصنع أثرًا،<br>
-                ولا نبحث عن سرعة الحفظ،<br>
-                بل عن حفظٍ راسخٍ يُثمر عملاً وأخلاقًا.<br><br>
-
+                ومن أجله نغرس في أبنائنا حبّه قبل أن نطالبهم بحفظه.<br><br>
+                في حلقاتنا لا نعدّ الصفحات، بل نصنع أثرًا،<br>
+                ولا نبحث عن سرعة الحفظ، بل عن حفظٍ راسخٍ يُثمر عملاً وأخلاقًا.<br><br>
                 نسير بمنهجٍ تربويٍّ واعٍ<br>
                 قائم على التدرّج، والتلقين الصحيح، والمراجعة المستمرة،<br>
                 بإشراف معلمين حملوا القرآن علمًا وعملاً،<br>
                 وفي بيئة إيمانية تشبه المساجد الأولى…<br>
                 صفاءً، وطمأنينة، وهيبةً لكلام الله.<br><br>
-
-                غايتنا أن يخرج من بيننا<br>
-                جيلٌ يعرف طريقه،<br>
-                يرفع القرآن في صدره،<br>
-                ويحمله في سلوكه،<br>
-                ويشهد له قبل أن يشهد به.<br><br>
-
-                لسنا حلقة تحفيظ فحسب،<br>
-                بل مسيرة إيمان،<br>
+                غايتنا أن يخرج من بيننا جيلٌ يعرف طريقه،<br>
+                يرفع القرآن في صدره، ويحمله في سلوكه، ويشهد له قبل أن يشهد به.<br><br>
+                لسنا حلقة تحفيظ فحسب، بل مسيرة إيمان،<br>
                 وبداية عهدٍ مع كتاب الله لا ينقطع.<br><br>
-
                 <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
-                ومن القرآن… نبدأ،<br>
-                وبه… نرتقي،<br>
-                وعليه… نلقى الله.
+                ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
             </div>
 
             <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
             <div class="contact-grid">
-                <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp">
-                    <span class="contact-icon">💬</span>
-                    <span>واتساب</span>
-                </a>
-                
-                <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank" class="contact-box bg-insta">
-                    <span class="contact-icon">📸</span>
-                    <span>انستقرام</span>
-                </a>
-
-                <a href="tel:+967777006546" class="contact-box bg-call">
-                    <span class="contact-icon">📞</span>
-                    <span>اتصال هاتفي</span>
-                </a>
-
-                <a href="https://maps.app.goo.gl/dRRYPVJyqh2NKMg86" target="_blank" class="contact-box bg-map">
-                    <span class="contact-icon">📍</span>
-                    <span>موقع المسجد</span>
-                </a>
+                <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp"><span class="contact-icon">💬</span><span>واتساب</span></a>
+                <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank" class="contact-box bg-insta"><span class="contact-icon">📸</span><span>انستقرام</span></a>
+                <a href="tel:+967777006546" class="contact-box bg-call"><span class="contact-icon">📞</span><span>اتصال هاتفي</span></a>
+                <a href="https://maps.app.goo.gl/dRRYPVJyqh2NKMg86" target="_blank" class="contact-box bg-map"><span class="contact-icon">📍</span><span>موقع المسجد</span></a>
             </div>
         </div>
 
@@ -267,10 +223,7 @@
                 { name: "أ. أحمد محمد", job: "حلقة أبو بكر" },
                 { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" }
             ],
-            // بيانات الجداول
-            afternoonRings: [
-                { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" }
-            ],
+            afternoonRings: [ { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" } ],
             eveningRings: [
                 { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" },
                 { name: "حلقة عثمان بن عفان", time: "بعد المغرب" },
@@ -284,16 +237,15 @@
             { id: 'ranks', text: '🏆 الأوائل' },
             { id: 'schedule', text: '📅 الجداول' },
             { id: 'teachers', text: '👨‍🏫 المعلمون' },
-            { id: 'about', text: 'ℹ️ من نحن' }, /* الزر الجديد هنا */
+            { id: 'about', text: 'ℹ️ من نحن' },
             { id: 'mobile', text: '📱 الجوال' }
         ];
 
-        // الملاحة بين الأقسام
+        // الملاحة
         const navContainer = document.getElementById('nav-buttons');
         menus.forEach(menu => {
             const btn = document.createElement('button');
-            btn.className = 'nav-btn';
-            btn.innerText = menu.text;
+            btn.className = 'nav-btn'; btn.innerText = menu.text;
             btn.onclick = () => {
                 document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
                 document.getElementById(`section-${menu.id}`).classList.add('active');
@@ -304,7 +256,7 @@
         });
         navContainer.firstChild.classList.add('active');
 
-        // عرض الأخبار
+        // الأخبار
         siteData.news.forEach(n => {
             document.getElementById('news-list').innerHTML += `
                 <div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})">
@@ -317,47 +269,89 @@
             if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
 
-        // عرض الأوائل
+        // الأوائل
         siteData.ranks.forEach(r => {
             let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join('');
             document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`;
         });
 
-        // وظيفة بناء الجداول
+        // الجداول
         function createTable(ringName, baseTime, isEvening) {
             let days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس"];
             let table = `<h3>جدول ${ringName}</h3><table><thead><tr><th>اليوم</th><th>الوقت</th><th>الملاحظة</th></tr></thead><tbody>`;
-            
             days.forEach(day => {
                 let timeDisplay = baseTime;
-                if (isEvening && day === "الخميس") {
-                    timeDisplay = "إلى أذان العشاء";
-                }
+                if (isEvening && day === "الخميس") timeDisplay = "إلى أذان العشاء";
                 table += `<tr><td>${day}</td><td>${timeDisplay}</td><td>حفظ ومراجعة</td></tr>`;
             });
             document.getElementById('schedule-display').innerHTML = table + `</tbody></table>`;
         }
 
-        // بناء أزرار حلقات العصر
         siteData.afternoonRings.forEach(ring => {
-            const b = document.createElement('button');
-            b.className = 'nav-btn'; b.innerText = ring.name;
+            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
             b.onclick = () => createTable(ring.name, ring.time, false);
             document.getElementById('ring-selectors-afternoon').appendChild(b);
         });
 
-        // بناء أزرار حلقات المغرب
         siteData.eveningRings.forEach(ring => {
-            const b = document.createElement('button');
-            b.className = 'nav-btn'; b.innerText = ring.name;
+            const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name;
             b.onclick = () => createTable(ring.name, ring.time, true);
             document.getElementById('ring-selectors-evening').appendChild(b);
         });
 
-        // عرض المعلمين
         siteData.teachers.forEach(t => {
             document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`;
         });
+
+        // ==========================================
+        // ✨ كود الآيات القرآنية (الجديد) ✨
+        // ==========================================
+        const verses = [
+            "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾",
+            "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾",
+            "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾", "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾", "﴿ وَاذْكُر رَّبَّكَ كَثِيرًا ﴾",
+            "﴿ وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ﴾", "﴿ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ ﴾", "﴿ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾",
+            "﴿ إِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾", "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾", "﴿ وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ ﴾",
+            "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ ﴾", "﴿ إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ ﴾", "﴿ وَاللَّهُ خَيْرُ الْحَافِظِينَ ﴾",
+            "﴿ وَهُوَ أَرْحَمُ الرَّاحِمِينَ ﴾", "﴿ فَاذْكُرُونِي أَذْكُرْكُمْ ﴾", "﴿ وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ ﴾",
+            "﴿ إِنَّ اللَّهَ نِعِمَّا يَعِظُكُم بِهِ ﴾", "﴿ وَاللَّهُ يَهْدِي مَن يَشَاءُ ﴾", "﴿ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ ﴾",
+            "﴿ وَاللَّهُ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾", "﴿ وَمَا عِندَ اللَّهِ خَيْرٌ وَأَبْقَىٰ ﴾", "﴿ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ﴾",
+            "﴿ إِنَّ اللَّهَ كَانَ بِكُمْ رَحِيمًا ﴾", "﴿ وَاللَّهُ غَالِبٌ عَلَىٰ أَمْرِهِ ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ ﴾",
+            "﴿ وَاللَّهُ يُحِبُّ الصَّابِرِينَ ﴾", "﴿ وَمَا تَشَاءُونَ إِلَّا أَن يَشَاءَ اللَّهُ ﴾", "﴿ إِنَّ اللَّهَ لَطِيفٌ خَبِيرٌ ﴾",
+            "﴿ وَاللَّهُ وَلِيُّ الْمُؤْمِنِينَ ﴾", "﴿ وَتَوَكَّلْ عَلَى اللَّهِ ﴾", "﴿ حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ ﴾",
+            "﴿ إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ ﴾", "﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ﴾", "﴿ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾",
+            "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ ﴾", "﴿ وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ ﴾", "﴿ إِنَّ اللَّهَ بَالِغُ أَمْرِهِ ﴾",
+            "﴿ وَاللَّهُ عَلِيمٌ حَكِيمٌ ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ ﴾", "﴿ وَاذْكُرِ اسْمَ رَبِّكَ ﴾",
+            "﴿ وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ﴾", "﴿ إِنَّ اللَّهَ مَعَنَا ﴾", "﴿ وَاللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ ﴾",
+            "﴿ نِعْمَ أَجْرُ الْعَامِلِينَ ﴾", "﴿ وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ ﴾", "﴿ سَلَامٌ قَوْلًا مِّن رَّبٍّ رَّحِيمٍ ﴾",
+            "﴿ وَمَا اللَّهُ بِغَافِلٍ عَمَّا تَعْمَلُونَ ﴾", "﴿ إِنَّ اللَّهَ خَيْرُ الرَّازِقِينَ ﴾", "﴿ وَاللَّهُ أَعْلَمُ بِمَا فِي الصُّدُورِ ﴾",
+            "﴿ فَاللَّهُ خَيْرٌ حَافِظًا ﴾", "﴿ إِنَّ اللَّهَ يُحِبُّ الْمُقْسِطِينَ ﴾", "﴿ وَاللَّهُ يُؤْتِي فَضْلَهُ مَن يَشَاءُ ﴾",
+            "﴿ وَاللَّهُ ذُو فَضْلٍ عَظِيمٍ ﴾", "﴿ إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ ﴾", "﴿ وَقُلِ الْحَقُّ مِن رَّبِّكُمْ ﴾",
+            "﴿ وَاللَّهُ أَكْبَرُ ﴾"
+        ];
+
+        const verseDisplay = document.getElementById('verse-display');
+
+        function showRandomVerse() {
+            // 1. اختيار آية عشوائية
+            const randomVerse = verses[Math.floor(Math.random() * verses.length)];
+            verseDisplay.innerText = randomVerse;
+            
+            // 2. إظهار الآية (Fade In)
+            verseDisplay.classList.add('visible');
+
+            // 3. الانتظار 8 ثوانٍ ثم الإخفاء
+            setTimeout(() => {
+                verseDisplay.classList.remove('visible');
+            }, 8000);
+        }
+
+        // تشغيل أول مرة مباشرة
+        showRandomVerse();
+
+        // تكرار العملية: 8 ثوان ظهور + 30 ثانية اختفاء = 38 ثانية الدورة الكاملة
+        setInterval(showRandomVerse, 38000);
+
     </script>
 </body>
 </html>
