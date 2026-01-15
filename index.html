@@ -60,7 +60,7 @@
         .bg-whatsapp { background-color: #25D366; } .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); } .bg-call { background-color: #3b82f6; } .bg-map { background-color: #ea4335; }
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; }
         
-        /* تأثير التحميل */
+        /* مؤشر التحميل */
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary-color);
             animation: spin 1s linear infinite; margin: 10px auto; display: none;
@@ -230,6 +230,7 @@
             });
         }
 
+        // === دوال حاسبة الختم ===
         function populateSelect(id, min, max, labelSuffix) {
             const select = document.getElementById(id);
             let optionZero = document.createElement("option"); optionZero.value = 0; optionZero.text = "0 " + labelSuffix; select.appendChild(optionZero);
@@ -261,10 +262,10 @@
         }
 
         // ==========================================
-        //  🚀 منطق "وقفة مع آية" (التحميل الذكي) 🚀
+        //  🚀 منطق "وقفة مع آية" (الذكي والشامل) 🚀
         // ==========================================
         
-        // 1. قائمة السور (خفيفة جداً ومدمجة هنا لسرعة الفتح)
+        // قائمة السور (خفيفة للعرض السريع)
         const surahsList = {
             1: ["الفاتحة", "البقرة"], 2: ["البقرة"], 3: ["البقرة", "آل عمران"], 4: ["آل عمران", "النساء"], 5: ["النساء", "المائدة"],
             6: ["المائدة", "الأنعام"], 7: ["الأنعام", "الأعراف"], 8: ["الأعراف", "الأنفال"], 9: ["الأنفال", "التوبة"], 10: ["التوبة", "يونس"],
@@ -278,7 +279,6 @@
             30: ["النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"]
         };
 
-        // تعبئة قائمة الأجزاء
         const juzSelect = document.getElementById('quiz-juz');
         for (let i = 1; i <= 30; i++) { let op = document.createElement('option'); op.value = i; op.innerText = "الجزء " + i; juzSelect.appendChild(op); }
 
@@ -289,7 +289,6 @@
             if (surahsList[j]) { surahsList[j].forEach(s => { let op = document.createElement('option'); op.value = s; op.innerText = "سورة " + s; sSelect.appendChild(op); }); }
         }
 
-        // متغيرات للتحميل
         let quranDb = null;
         let isLoading = false;
 
@@ -301,7 +300,6 @@
                 document.getElementById('q-text').innerText = "⏳ جاري تحميل قاعدة البيانات الشاملة (لأول مرة فقط)...";
                 document.getElementById('quiz-area').style.display = 'block';
                 
-                // هنا يتم طلب الملف الكبير Database.json
                 const response = await fetch('Database.json');
                 if (!response.ok) throw new Error("File not found");
                 quranDb = await response.json();
@@ -312,7 +310,7 @@
             } catch (error) {
                 console.error(error);
                 document.getElementById('loading-spinner').style.display = 'none';
-                document.getElementById('q-text').innerText = "❌ خطأ: لم يتم العثور على ملف Database.json في المجلد.";
+                document.getElementById('q-text').innerText = "❌ خطأ: لم يتم العثور على ملف Database.json";
                 return false;
             }
         }
@@ -332,31 +330,64 @@
             if (s !== "0") { filtered = filtered.filter(q => q.surah === s); }
 
             if (filtered.length === 0) {
-                document.getElementById('q-text').innerText = "لا توجد أسئلة متوفرة لهذا الجزء في قاعدة البيانات.";
+                document.getElementById('q-text').innerText = "لا توجد آيات متوفرة لهذا الجزء في قاعدة البيانات.";
                 return;
             }
 
             const randomQ = filtered[Math.floor(Math.random() * filtered.length)];
-            document.getElementById('q-text').innerHTML = `<span style="color:var(--primary-color)">${randomQ.type || 'أكمل الآية'}:</span><br>${randomQ.text}`;
-            document.getElementById('q-answer').innerHTML = `<strong>الجواب:</strong> ${randomQ.answer}<br><small>${randomQ.surah} - الجزء ${randomQ.juz}</small>`;
+            
+            // === المنطق الذكي للتعامل مع الآيات ===
+            let questionText = "";
+            let answerText = "";
+            let typeText = "أكمل الآية";
+
+            if (randomQ.answer) {
+                // الحالة 1: الملف يحتوي على سؤال وجواب جاهزين
+                questionText = randomQ.text;
+                answerText = randomQ.answer;
+                typeText = randomQ.type || "أكمل الآية";
+            } else if (randomQ.text) {
+                // الحالة 2: الملف يحتوي على الآية كاملة فقط (نقوم بقصها برمجياً)
+                const words = randomQ.text.split(' ');
+                if (words.length <= 4) {
+                    // آية قصيرة جداً: نعرضها كلها ونسأل عن اسم السورة
+                    questionText = randomQ.text;
+                    answerText = `سورة ${randomQ.surah}`;
+                    typeText = "ما اسم السورة؟";
+                } else {
+                    // آية متوسطة/طويلة: نقسمها نصفين
+                    const midPoint = Math.ceil(words.length / 2);
+                    questionText = words.slice(0, midPoint).join(' ') + " ...";
+                    answerText = words.slice(midPoint).join(' ');
+                    typeText = "أكمل الآية";
+                }
+            } else {
+                // حالة احتياطية
+                questionText = "لا يوجد نص للآية";
+                answerText = "---";
+            }
+            
+            // عرض السؤال
+            document.getElementById('q-text').innerHTML = `<span style="color:var(--primary-color)">${typeText}:</span><br>${questionText}`;
+            document.getElementById('q-answer').innerHTML = `<strong>الجواب:</strong> ${answerText}<br><small>${randomQ.surah} - الجزء ${randomQ.juz}</small>`;
             document.getElementById('q-answer').style.display = 'none';
             document.getElementById('quiz-area').style.display = 'block';
             
-            // تحديث ارتفاع البانل
             const panel = document.getElementById('quiz-area').closest('.accordion-panel');
             panel.style.maxHeight = panel.scrollHeight + "px";
         }
 
-
-        // بيانات الموقع
+        // بيانات الموقع الثابتة (أخبار، معلمين...)
         const siteData = {
-            news: [ { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين (اضغط لرؤية الأسماء)", winners: ["سعيد أحمد", "محمد فؤاد", "يوسف عمر"] }, { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] } ],
-            ranks: [ { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر", "فهد محمد"] }, { ring: "حلقة أبو بكر الصديق", students: ["سعد إبراهيم", "عبدالله علي", "عثمان حسن"] }, { ring: "حلقة عثمان بن عفان", students: ["بدر ناصر", "ريان يوسف", "زياد فؤاد"] }, { ring: "حلقة علي بن أبي طالب", students: ["حمزة صالح", "أنس محمود", "طلال بكر"] }, { ring: "حلقة الزبير بن العوام", students: ["معاذ إياد", "تميم منصور", "يحيى زكريا"] } ],
-            teachers: [ { name: "الشيخ عبدالله", job: "المشرف العام" }, { name: "أ. أحمد محمد", job: "حلقة أبو بكر" }, { name: "أ. سعيد عمر", job: "حلقة عمر بن الخطاب" } ],
+            news: [ { id: 1, date: "15-1", text: "تم تكريم الطلاب المتميزين", winners: ["سعيد أحمد", "محمد فؤاد"] }, { id: 2, date: "12-1", text: "بداية التسجيل للدورة الصيفية.", winners: [] } ],
+            ranks: [ { ring: "حلقة عمر بن الخطاب", students: ["خالد أحمد", "ياسين عمر"] }, { ring: "حلقة أبو بكر", students: ["سعد إبراهيم", "عبدالله علي"] } ],
+            teachers: [ { name: "الشيخ عبدالله", job: "المشرف العام" }, { name: "أ. أحمد محمد", job: "حلقة أبو بكر" } ],
             afternoonRings: [ { name: "حلقة عمر بن الخطاب", time: "4:00 - 5:00 عصراً" } ],
-            eveningRings: [ { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" }, { name: "حلقة عثمان بن عفان", time: "بعد المغرب" }, { name: "حلقة علي بن أبي طالب", time: "بعد المغرب" }, { name: "حلقة الزبير بن العوام", time: "بعد المغرب" } ]
+            eveningRings: [ { name: "حلقة أبو بكر الصديق", time: "بعد المغرب" }, { name: "حلقة عثمان بن عفان", time: "بعد المغرب" } ]
         };
         const menus = [ { id: 'home', text: '🏠 الرئيسية' }, { id: 'ranks', text: '🏆 الأوائل' }, { id: 'schedule', text: '📅 الجداول' }, { id: 'student', text: '📖 ركن الطالب' }, { id: 'teachers', text: '👨‍🏫 المعلمون' }, { id: 'about', text: 'ℹ️ من نحن' }, { id: 'mobile', text: '📱 الجوال' } ];
+        
+        // بناء القائمة الرئيسية
         const navContainer = document.getElementById('nav-buttons');
         menus.forEach(menu => {
             const btn = document.createElement('button'); btn.className = 'nav-btn'; btn.innerText = menu.text;
@@ -364,8 +395,8 @@
             navContainer.appendChild(btn);
         });
         navContainer.firstChild.classList.add('active');
-        
-        // تعبئة البيانات العامة
+
+        // تعبئة البيانات
         siteData.news.forEach(n => { document.getElementById('news-list').innerHTML += `<div class="card ${n.winners.length > 0 ? 'clickable' : ''}" onclick="toggleWinners(${n.id})"><strong>📅 ${n.date}</strong><br>${n.text}${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}</div>`; });
         function toggleWinners(id) { const el = document.getElementById(`win-${id}`); if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block'; }
         siteData.ranks.forEach(r => { let list = r.students.map((s, i) => `<li>${s} (المركز ${i+1})</li>`).join(''); document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul style="margin:5px 0">${list}</ul></div>`; });
@@ -373,12 +404,14 @@
         siteData.afternoonRings.forEach(ring => { const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name; b.onclick = () => createTable(ring.name, ring.time, false); document.getElementById('ring-selectors-afternoon').appendChild(b); });
         siteData.eveningRings.forEach(ring => { const b = document.createElement('button'); b.className = 'nav-btn'; b.innerText = ring.name; b.onclick = () => createTable(ring.name, ring.time, true); document.getElementById('ring-selectors-evening').appendChild(b); });
         siteData.teachers.forEach(t => { document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br><span style="color:gray">${t.job}</span></div>`; });
-        const verses = [ "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾", "﴿ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ ﴾", "﴿ إِنَّهُ لَقُرْآنٌ كَرِيمٌ ﴾", "﴿ قَدْ جَاءَكُم مِّنَ اللَّهِ نُورٌ وَكِتَابٌ مُّبِينٌ ﴾", "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾", "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾" ];
+        
+        // شريط الآيات المتحرك
+        const verses = [ "﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ ﴾", "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾" ];
         const verseDisplay = document.getElementById('verse-display');
         function showRandomVerse() { const randomVerse = verses[Math.floor(Math.random() * verses.length)]; verseDisplay.innerText = randomVerse; verseDisplay.classList.add('visible'); setTimeout(() => { verseDisplay.classList.remove('visible'); }, 8000); }
         showRandomVerse(); setInterval(showRandomVerse, 38000);
-        
-        // حسابات الخطة الأولى والثانية (مكررة لتأكيد العمل)
+
+        // حسابات الخطة (خطة ختمي)
         let selectedDays = 0;
         const daysOptionsDiv = document.getElementById('days-options');
         const daysList = [{v: 1, t: "يوم واحد"}, {v: 2, t: "يومان"}, {v: 3, t: "3 أيام"}, {v: 4, t: "4 أيام"}, {v: 5, t: "5 أيام"}, {v: 6, t: "6 أيام"}, {v: 7, t: "يومياً (7 أيام)"}];
@@ -414,6 +447,4 @@
             const panel = resultDiv.closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px";
         }
         function resetCalc() { selectedDays = 0; document.getElementById('calc-result').style.display = 'none'; document.getElementById('reset-calc').style.display = 'none'; document.getElementById('calc-step-2').style.display = 'none'; document.getElementById('custom-amount-div').style.display = 'none'; document.getElementById('calc-step-1').style.display = 'block'; const panel = document.getElementById('calc-step-1').closest('.accordion-panel'); panel.style.maxHeight = panel.scrollHeight + "px"; }
-    </script>
-</body>
-</html>
+</script>
