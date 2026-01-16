@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حلقات الثريا لتعليم القرآن الكريم</title>
+    <title>حلقات الثريا لتحفيظ القرآن الكريم</title>
     
     <link rel="icon" type="image/png" href="1768411699920.png">
     <link rel="apple-touch-icon" href="1768411699920.png">
@@ -21,8 +21,7 @@
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
         <h1>حلقات الثريا</h1>
-        <p>لتعليم القرآن الكريم 
-            حضرموت - غيل باوزير</p>
+        <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
         
         <div id="verse-display" class="verse-ticker"></div>
     </header>
@@ -46,75 +45,113 @@
 
         <div id="section-student" class="page-section">
             <h2 style="color:var(--primary-color)">📖 ركن الطالب</h2>
-            <p style="text-align:center; color:gray; margin-bottom:20px;">أدوات ذكية لمساعدتك في رحلة القرآن</p>
+            
+            <div class="quran-tabs">
+                <button class="quran-tab active" onclick="openQuranTab('reader')">📜 المصحف</button>
+                <button class="quran-tab" onclick="openQuranTab('tools')">🧮 أدوات الختم</button>
+                <button class="quran-tab" onclick="openQuranTab('quiz')">🧠 اختبر حفظي</button>
+            </div>
 
-            <button class="accordion-btn">🚀 خطة ختمي (بناءً على جهدي) <span>▼</span></button>
-            <div class="accordion-panel">
-                <div style="padding: 15px 0;">
-                    <p>أخبرنا بجهدك اليومي، وسنخبرك متى تختم.</p>
-                    
-                    <div id="calc-step-1">
-                        <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
-                        <div id="days-options"></div>
+            <div id="tab-reader" class="quran-content-section active">
+                <div id="surah-list-view">
+                    <input type="text" id="quran-search" class="search-box" placeholder="🔍 ابحث عن سورة أو آية..." onkeyup="searchQuran()">
+                    <div id="quran-loader" style="text-align:center; color:var(--primary-color);">جاري تحميل المصحف من الملف... ⏳</div>
+                    <div id="surah-list-container"></div>
+                </div>
+                <div id="surah-reader-view">
+                    <button class="back-btn" onclick="backToSurahList()">➡️ العودة للقائمة</button>
+                    <div class="card">
+                        <div id="reader-content"></div>
                     </div>
-
-                    <div id="calc-step-2" style="display:none;">
-                        <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
-                        <div id="amount-options"></div>
-                        <div id="custom-amount-div" style="display:none;">
-                            <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
-                            <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
-                        </div>
-                    </div>
-
-                    <div id="calc-result" class="calc-result"></div>
-                    <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
                 </div>
             </div>
 
-            <button class="accordion-btn">🧭 دليل الختم (بناءً على وقتي) <span>▼</span></button>
-            <div class="accordion-panel">
-                <div style="padding: 15px 0;">
-                    <p>حدد المدة التي تريد الختم فيها، وسنرسم لك الخطة.</p>
-
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="planType" value="حفظ" checked> 🧠 خطة حفظ
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="planType" value="قراءة"> 📖 خطة قراءة
-                        </label>
+            <div id="tab-tools" class="quran-content-section">
+                <button class="accordion-btn">🚀 خطة ختمي (بناءً على جهدي) <span>▼</span></button>
+                <div class="accordion-panel">
+                    <div style="padding: 15px 0;">
+                        <p>أخبرنا بجهدك اليومي، وسنخبرك متى تختم.</p>
+                        <div id="calc-step-1">
+                            <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
+                            <div id="days-options"></div>
+                        </div>
+                        <div id="calc-step-2" style="display:none;">
+                            <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
+                            <div id="amount-options"></div>
+                            <div id="custom-amount-div" style="display:none;">
+                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
+                                <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
+                            </div>
+                        </div>
+                        <div id="calc-result" class="calc-result"></div>
+                        <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
                     </div>
+                </div>
 
-                    <div class="calc-input-group">
-                        <label>🗓️ الختم بالأيام:</label>
-                        <select id="target-days" class="form-select"></select>
+                <button class="accordion-btn">🧭 دليل الختم (بناءً على وقتي) <span>▼</span></button>
+                <div class="accordion-panel">
+                    <div style="padding: 15px 0;">
+                        <p>حدد المدة التي تريد الختم فيها، وسنرسم لك الخطة.</p>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="planType" value="حفظ" checked> 🧠 خطة حفظ</label>
+                            <label class="radio-label"><input type="radio" name="planType" value="قراءة"> 📖 خطة قراءة</label>
+                        </div>
+                        <div class="calc-input-group"><label>🗓️ الختم بالأيام:</label><select id="target-days" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>📅 الختم بالأشهر:</label><select id="target-months" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>📆 الختم بالسنوات:</label><select id="target-years" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>⏩ تخطي أجزاء (تم إنجازها):</label><select id="skipped-parts" class="form-select"><option value="0">لا يوجد (سأبدأ من الصفر)</option></select></div>
+                        <button class="nav-btn active" style="width:100%; padding:15px;" onclick="calculateReversePlan()">✨ احسب خطتي ✨</button>
+                        <div id="reverse-calc-result" class="calc-result"></div>
                     </div>
+                </div>
+            </div>
+
+            <div id="tab-quiz" class="quran-content-section">
+                <div class="card" style="border-top: 4px solid var(--accent-color);">
+                    <h3>⚙️ إعدادات الاختبار</h3>
                     
                     <div class="calc-input-group">
-                        <label>📅 الختم بالأشهر:</label>
-                        <select id="target-months" class="form-select"></select>
+                        <label>1️⃣ اختر الجزء:</label>
+                        <select id="quiz-juz" class="form-select" onchange="updateQuizSurahs()">
+                            </select>
                     </div>
 
                     <div class="calc-input-group">
-                        <label>📆 الختم بالسنوات:</label>
-                        <select id="target-years" class="form-select"></select>
-                    </div>
-
-                    <div class="calc-input-group">
-                        <label>⏩ تخطي أجزاء (تم إنجازها):</label>
-                        <select id="skipped-parts" class="form-select">
-                            <option value="0">لا يوجد (سأبدأ من الصفر)</option>
+                        <label>2️⃣ اختر السورة (اختياري):</label>
+                        <select id="quiz-surah" class="form-select">
+                            <option value="0">كل سور الجزء</option>
                         </select>
                     </div>
 
-                    <button class="nav-btn active" style="width:100%; padding:15px;" onclick="calculateReversePlan()">✨ احسب خطتي ✨</button>
+                    <div class="calc-input-group">
+                        <label>3️⃣ نوع السؤال:</label>
+                        <select id="quiz-type" class="form-select">
+                            <option value="complete">أكمل الآية (كتابة أو تسميع)</option>
+                            <option value="surah_name">ما اسم السورة؟</option>
+                            <option value="ayah_num">ما رقم الآية؟</option>
+                            <option value="which_juz">في أي جزء هذه الآية؟</option>
+                        </select>
+                    </div>
 
-                    <div id="reverse-calc-result" class="calc-result"></div>
+                    <button class="nav-btn active" style="width:100%" onclick="generateQuestion()">🚀 ابدأ السؤال</button>
+                </div>
+
+                <div id="quiz-area" class="card" style="display:none; text-align:center; animation: fadeIn 0.5s;">
+                    <p style="color:#666; font-size:0.9rem;">السؤال:</p>
+                    <div id="question-text" class="quran-verse" style="margin-bottom:20px; font-size:1.6rem;"></div>
+                    
+                    <button id="show-answer-btn" class="nav-btn" onclick="showAnswer()">👁️ عرض الإجابة</button>
+                    
+                    <div id="answer-box" style="display:none; margin-top:20px; background:#f0fdf4; padding:15px; border-radius:10px; border:1px solid var(--primary-color);">
+                        <p><strong>الإجابة الصحيحة:</strong></p>
+                        <div id="answer-text" style="font-size:1.3rem; line-height:1.8; color:var(--text-dark);"></div>
+                        <hr style="margin:10px 0; opacity:0.2;">
+                        <p style="font-size:0.9rem; color:gray;" id="answer-details"></p>
+                        <button class="nav-btn" style="margin-top:10px; background:var(--accent-color); color:black;" onclick="generateQuestion()">سؤال تالي 🔄</button>
+                    </div>
                 </div>
             </div>
-
-        </div>
+            </div>
 
         <div id="section-ranks" class="page-section">
             <h2 style="color:var(--primary-color)">🏆 أوائل الحلقات</h2>
