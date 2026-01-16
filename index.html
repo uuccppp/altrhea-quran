@@ -154,6 +154,7 @@
         </div>
         <h1>حلقات الثريا</h1>
         <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
+        
         <div id="verse-display" class="verse-ticker"></div>
     </header>
 
@@ -164,6 +165,7 @@
         <div id="section-home" class="page-section active">
             <h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>
             <div id="news-list"></div>
+
             <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
             <div class="card" style="border-right: 4px solid var(--accent-color);">
                 <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "سنام القرآن"؟</p>
@@ -199,18 +201,43 @@
             <div id="tab-tools" class="quran-content-section">
                 <button class="accordion-btn">🚀 خطة ختمي (بناءً على جهدي) <span>▼</span></button>
                 <div class="accordion-panel">
-                    <div style="padding:15px 0;">
-                        <p>كم يوماً تحفظ في الأسبوع؟</p>
-                        <select id="calc-days" class="search-box" style="margin-bottom:10px">
-                            <option value="5">5 أيام</option><option value="6">6 أيام</option><option value="7">يومياً</option>
-                        </select>
-                        <p>مقدار الحفظ اليومي (بالصفحات):</p>
-                        <input type="number" id="calc-amount" class="search-box" placeholder="مثلاً: 1">
-                        <button class="nav-btn" style="width:100%" onclick="simpleCalc()">احسب</button>
-                        <div id="simple-calc-result" style="margin-top:10px; font-weight:bold; color:var(--primary-color)"></div>
+                    <div style="padding: 15px 0;">
+                        <p>أخبرنا بجهدك اليومي، وسنخبرك متى تختم.</p>
+                        <div id="calc-step-1">
+                            <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
+                            <div id="days-options"></div>
+                        </div>
+                        <div id="calc-step-2" style="display:none;">
+                            <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
+                            <div id="amount-options"></div>
+                            <div id="custom-amount-div" style="display:none;">
+                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
+                                <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
+                            </div>
+                        </div>
+                        <div id="calc-result" class="calc-result"></div>
+                        <button id="reset-calc" class="nav-btn" style="display:none; margin-top:10px; width:100%" onclick="resetCalc()">حساب جديد 🔄</button>
+                    </div>
+                </div>
+
+                <button class="accordion-btn">🧭 دليل الختم (بناءً على وقتي) <span>▼</span></button>
+                <div class="accordion-panel">
+                    <div style="padding: 15px 0;">
+                        <p>حدد المدة التي تريد الختم فيها، وسنرسم لك الخطة.</p>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="planType" value="حفظ" checked> 🧠 خطة حفظ</label>
+                            <label class="radio-label"><input type="radio" name="planType" value="قراءة"> 📖 خطة قراءة</label>
+                        </div>
+                        <div class="calc-input-group"><label>🗓️ الختم بالأيام:</label><select id="target-days" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>📅 الختم بالأشهر:</label><select id="target-months" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>📆 الختم بالسنوات:</label><select id="target-years" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>⏩ تخطي أجزاء (تم إنجازها):</label><select id="skipped-parts" class="form-select"><option value="0">لا يوجد (سأبدأ من الصفر)</option></select></div>
+                        <button class="nav-btn active" style="width:100%; padding:15px;" onclick="calculateReversePlan()">✨ احسب خطتي ✨</button>
+                        <div id="reverse-calc-result" class="calc-result"></div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div id="section-ranks" class="page-section">
@@ -220,30 +247,55 @@
 
         <div id="section-schedule" class="page-section">
             <h2 style="color:var(--primary-color)">📅 الجداول الدراسية</h2>
-            <div class="group-title">☀️ حلقات العصر</div>
+            
+            <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
             <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
-            <div class="group-title">🌙 حلقات المغرب</div>
+
+            <div class="group-title">🌙 حلقات بعد المغرب (من المغرب إلى العشاء)</div>
             <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
             <div id="schedule-display"></div>
+            
+            <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
+            <div class="card" style="border-right-color: #ef4444;">
+                <ul style="margin:0; padding-right:20px;">
+                    <li>يوم الجمعة (إجازة أسبوعية)</li>
+                    <li>عيد الأضحى وعيد الفطر</li>
+                    <li>قبل الاختبارات المدرسية (الفصلية والنهائية) بأسبوع</li>
+                </ul>
+            </div>
         </div>
 
         <div id="section-teachers" class="page-section">
-            <h2 style="color:var(--primary-color)">👨‍🏫 المعلمون</h2>
+            <h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>
             <div id="teachers-list"></div>
         </div>
 
         <div id="section-about" class="page-section">
-            <h2 style="color:var(--primary-color)">ℹ️ من نحن</h2>
-            <div class="card poetic-text">نحن حلقات الثريا... <br> <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span></div>
+            <h2 style="color:var(--primary-color)">🕌 من نحن</h2>
+            
+            <div class="card poetic-text">
+                نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
+                حيث لا يُحفظ القرآن بالألسنة فقط،<br>
+                بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
+                <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
+                ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
+            </div>
+
+            <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
             <div class="contact-grid">
-                <a href="https://wa.me/967777006546" class="contact-box bg-whatsapp"><span>واتساب</span></a>
-                <a href="tel:+967777006546" class="contact-box bg-call"><span>اتصال</span></a>
+                <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp"><span class="contact-icon">💬</span><span>واتساب</span></a>
+                <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank" class="contact-box bg-insta"><span class="contact-icon">📸</span><span>انستقرام</span></a>
+                <a href="tel:+967777006546" class="contact-box bg-call"><span class="contact-icon">📞</span><span>اتصال هاتفي</span></a>
+                <a href="https://maps.app.goo.gl/dRRYPVJyqh2NKMg86" target="_blank" class="contact-box bg-map"><span class="contact-icon">📍</span><span>موقع المسجد</span></a>
             </div>
         </div>
 
         <div id="section-mobile" class="page-section">
-            <h2 style="color:var(--primary-color)">📱 الجوال</h2>
-            <div class="card">التطبيق قريباً بإذن الله.</div>
+            <h2 style="color:var(--primary-color)">📱 تطبيق الجوال</h2>
+            <div class="card">
+                سيتم إطلاق تطبيق حلقات الثريا قريباً بإذن الله.
+            </div>
         </div>
 
     </div>
@@ -256,7 +308,8 @@
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.body.classList.toggle('dark-mode');
-            document.getElementById('theme-btn').innerText = isDarkMode ? "🌙" : "☀️";
+            const btn = document.getElementById('theme-btn');
+            btn.innerText = isDarkMode ? "🌙 ليلي" : "☀️ نهاري";
         }
 
         const menus = [
@@ -278,46 +331,41 @@
                 document.getElementById(`section-${menu.id}`).classList.add('active');
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                // تحميل المصحف عند الدخول لركن الطالب
+                // تحميل المصحف فقط عند الحاجة
                 if(menu.id === 'student' && !window.quranData) loadQuranData();
             };
             navContainer.appendChild(btn);
         });
         navContainer.firstChild.classList.add('active');
 
-        // === 2. محرك المصحف (الجديد) ===
-        window.quranData = null; // لتخزين البيانات
-        window.quranArray = [];  // للبحث
+        // === 2. محرك المصحف (الذي يربط مع quran.json) ===
+        window.quranData = null; 
+        window.quranArray = [];  
 
         function loadQuranData() {
-            fetch('quran.json') //
+            fetch('quran.json') 
                 .then(r => r.json())
                 .then(data => {
                     document.getElementById('quran-loader').style.display = 'none';
-                    // تحويل الكائن إلى مصفوفة للسهولة
-                    // البيانات تأتي {"1": {...}, "2": {...}}
                     window.quranData = data;
                     window.quranArray = Object.values(data);
                     
-                    // تحضير بيانات البحث (إزالة التشكيل)
-                    prepareSearchData();
+                    prepareSearchData(); // تنظيف النصوص للبحث
                     renderSurahList(window.quranArray);
                 })
                 .catch(err => {
-                    document.getElementById('quran-loader').innerHTML = "لم يتم العثور على ملف quran.json <br> يرجى التأكد من رفعه.";
+                    document.getElementById('quran-loader').innerHTML = "لم يتم العثور على ملف quran.json";
                 });
         }
 
-        // دالة تنظيف النص للبحث
         function normalizeText(text) {
             return text.replace(/[\u064B-\u065F\u0670]/g, '') // إزالة التشكيل
-                       .replace(/[ٱإأآ]/g, 'ا') // توحيد الألف
-                       .replace(/ة/g, 'ه') // التاء المربوطة
-                       .replace(/ى/g, 'ي'); // الألف المقصورة
+                       .replace(/[ٱإأآ]/g, 'ا')
+                       .replace(/ة/g, 'ه')
+                       .replace(/ى/g, 'ي');
         }
 
         function prepareSearchData() {
-            // إضافة نص بسيط لكل آية لتسهيل البحث
             window.quranArray.forEach(surah => {
                 surah.ayahs.forEach(ayah => {
                     ayah.simpleText = normalizeText(ayah.text);
@@ -348,11 +396,7 @@
             document.getElementById('surah-reader-view').style.display = 'block';
             
             const reader = document.getElementById('reader-content');
-            
-            // البسملة (إلا في التوبة رقم 9)
             let basmalaHTML = (surah.num != 9 && surah.num != 1) ? '<div class="basmala">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>' : '';
-            
-            // تجميع الآيات
             let ayahsHTML = surah.ayahs.map(ayah => {
                 return `<span class="ayah-span">${ayah.text} <span class="ayah-number-symbol">(${ayah.num})</span> </span>`;
             }).join('');
@@ -367,7 +411,6 @@
                     ${ayahsHTML}
                 </div>
             `;
-            // صعود للأعلى
             window.scrollTo(0,0);
         }
 
@@ -382,13 +425,8 @@
                 renderSurahList(window.quranArray);
                 return;
             }
-
-            // البحث في أسماء السور
             let results = window.quranArray.filter(s => normalizeText(s.name).includes(query));
-            
-            // إذا لم نجد في الأسماء، نبحث في الآيات (ميزة متقدمة)
             if (results.length === 0 && query.length > 2) {
-                // البحث داخل الآيات (قد يكون ثقيلاً قليلاً لذا نشترط 3 حروف)
                 results = window.quranArray.filter(surah => 
                     surah.ayahs.some(ayah => ayah.simpleText.includes(query))
                 );
@@ -396,7 +434,6 @@
             renderSurahList(results);
         }
 
-        // === 3. التبويبات والأدوات ===
         function openQuranTab(tabName) {
             document.querySelectorAll('.quran-content-section').forEach(d => d.classList.remove('active'));
             document.getElementById(`tab-${tabName}`).classList.add('active');
@@ -404,60 +441,122 @@
             event.target.classList.add('active');
         }
 
-        // الأكورديون والحاسبة البسيطة
+        // === 3. منطق الحاسبات والتبويبات (تم الاحتفاظ به بالكامل) ===
         const acc = document.getElementsByClassName("accordion-btn");
         for (let i = 0; i < acc.length; i++) {
             acc[i].addEventListener("click", function() {
                 this.classList.toggle("active-acc");
                 const panel = this.nextElementSibling;
-                if (panel.style.maxHeight) panel.style.maxHeight = null;
-                else panel.style.maxHeight = panel.scrollHeight + "px";
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 500 + "px";
+                }
             });
         }
-        function simpleCalc() {
-            const days = document.getElementById('calc-days').value;
-            const amount = document.getElementById('calc-amount').value;
-            if(days && amount) {
-                const totalPages = 604;
-                const weekly = days * amount;
-                const weeks = totalPages / weekly;
-                const months = (weeks * 7) / 30;
-                document.getElementById('simple-calc-result').innerText = `ستختم خلال ${months.toFixed(1)} شهر تقريباً`;
-            }
+
+        // تعبئة قوائم الاختيار
+        function populateSelect(id, min, max, labelSuffix) {
+            const select = document.getElementById(id);
+            let optionZero = document.createElement("option"); optionZero.value = 0; optionZero.text = "0 " + labelSuffix; select.appendChild(optionZero);
+            for(let i=min; i<=max; i++) { if(i===0) continue; let option = document.createElement("option"); option.value = i; option.text = i + " " + labelSuffix; select.appendChild(option); }
+        }
+        populateSelect("target-days", 1, 30, "يوم");
+        populateSelect("target-months", 1, 12, "شهر");
+        populateSelect("target-years", 1, 10, "سنة");
+        
+        const skipSelect = document.getElementById("skipped-parts");
+        for(let i=1; i<=29; i++) { let option = document.createElement("option"); option.value = i; option.text = i + " جزء"; skipSelect.appendChild(option); }
+
+        // حاسبة خطة ختمي (بالجهد)
+        const daysOptionsDiv = document.getElementById('days-options');
+        let selectedDays = 0;
+        [{v: 1, t: "يوم واحد"}, {v: 2, t: "يومان"}, {v: 3, t: "3 أيام"}, {v: 4, t: "4 أيام"}, {v: 5, t: "5 أيام"}, {v: 6, t: "6 أيام"}, {v: 7, t: "يومياً"}].forEach(d => {
+            const btn = document.createElement('button'); btn.className = 'calc-btn'; btn.innerText = d.t;
+            btn.onclick = () => { selectedDays = d.v; document.getElementById('calc-step-1').style.display = 'none'; document.getElementById('calc-step-2').style.display = 'block'; };
+            daysOptionsDiv.appendChild(btn);
+        });
+
+        const amountOptionsDiv = document.getElementById('amount-options');
+        [{v: 0.5, t: "نصف صفحة"}, {v: 1, t: "صفحة واحدة"}, {v: 2, t: "صفحتان"}, {v: 3, t: "3 صفحات"}, {v: 20, t: "جزء كامل"}].forEach(a => {
+            const btn = document.createElement('button'); btn.className = 'calc-btn'; btn.innerText = a.t;
+            btn.onclick = () => calculatePlan(a.v);
+            amountOptionsDiv.appendChild(btn);
+        });
+        
+        const customBtn = document.createElement('button'); customBtn.className = 'calc-btn'; customBtn.innerText = "✏️ رقم آخر";
+        customBtn.onclick = () => { document.getElementById('custom-amount-div').style.display = 'block'; };
+        amountOptionsDiv.appendChild(customBtn);
+
+        function calculatePlan(pagesPerDay) {
+            pagesPerDay = parseFloat(pagesPerDay);
+            if(!pagesPerDay || pagesPerDay <= 0) return alert("الرجاء إدخال رقم صحيح");
+            const totalPages = 604;
+            const weeklyPages = selectedDays * pagesPerDay;
+            const weeksNeeded = totalPages / weeklyPages;
+            const totalDaysNeeded = Math.ceil(weeksNeeded * 7);
+            let durationText = "";
+            if (totalDaysNeeded < 30) durationText = `${totalDaysNeeded} يوم`;
+            else if (totalDaysNeeded < 365) durationText = `${Math.floor(totalDaysNeeded / 30)} شهر و ${totalDaysNeeded % 30} يوم`;
+            else durationText = `${Math.floor(totalDaysNeeded / 365)} سنة و ${Math.floor((totalDaysNeeded % 365) / 30)} شهر`;
+
+            const resultDiv = document.getElementById('calc-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<h3>🎉 النتيجة المتوقعة</h3><p>معدل الحفظ الأسبوعي: <strong>${weeklyPages} صفحات</strong></p><p style="font-size:1.2rem; color:var(--primary-color); font-weight:bold;">ستختم خلال:<br>⏳ ${durationText}</p>`;
+            document.getElementById('calc-step-2').style.display = 'none';
+            document.getElementById('reset-calc').style.display = 'block';
         }
 
-        // === 4. البيانات العامة (الأخبار - الجداول) ===
+        function resetCalc() {
+            selectedDays = 0; document.getElementById('calc-result').style.display = 'none'; document.getElementById('reset-calc').style.display = 'none';
+            document.getElementById('calc-step-2').style.display = 'none'; document.getElementById('custom-amount-div').style.display = 'none';
+            document.getElementById('calc-step-1').style.display = 'block'; document.getElementById('custom-pages').value = '';
+        }
+
+        // حاسبة دليل الختم (بالوقت)
+        function calculateReversePlan() {
+            const days = parseInt(document.getElementById('target-days').value) || 0;
+            const months = parseInt(document.getElementById('target-months').value) || 0;
+            const years = parseInt(document.getElementById('target-years').value) || 0;
+            const skipped = parseInt(document.getElementById('skipped-parts').value) || 0;
+            const planType = document.querySelector('input[name="planType"]:checked').value;
+
+            const totalDaysAvailable = days + (months * 30) + (years * 365);
+            if (totalDaysAvailable === 0) { alert("يرجى اختيار مدة زمنية ⚠️"); return; }
+
+            const remainingParts = 30 - skipped;
+            const totalPages = remainingParts * 20;
+            const dailyPages = totalPages / totalDaysAvailable;
+            let amountText = "";
+
+            if(dailyPages >= 20) amountText = `<strong>${(dailyPages/20).toFixed(1)} جزء</strong> يومياً`;
+            else if (dailyPages >= 1) amountText = `<strong>${Math.ceil(dailyPages)} صفحات</strong> يومياً`;
+            else amountText = `<strong>${Math.ceil(dailyPages * 15)} أسطر</strong> يومياً`;
+
+            const resultDiv = document.getElementById('reverse-calc-result');
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `<h3>🎯 خطتك المقترحة</h3><p>المطلوب منك (${planType}) بمعدل:</p><div style="font-size:1.5rem; color:var(--primary-color); margin:10px 0;">${amountText}</div>`;
+        }
+
+        // === 4. البيانات العامة ===
         const siteData = {
-            news: [{id:1, date:"15-1", text:"تكريم المتميزين", winners:["أحمد", "محمد"]}],
-            ranks: [{ring:"حلقة عمر", students:["خالد", "ياسين"]}],
-            teachers: [{name:"الشيخ عبدالله", job:"مشرف"}],
+            news: [{id:1, date:"15-1", text:"تكريم المتميزين", winners:["أحمد", "محمد", "سعيد"]}],
+            ranks: [{ring:"حلقة عمر", students:["خالد", "ياسين"]}, {ring:"حلقة أبو بكر", students:["سعد", "عبدالله"]}],
+            teachers: [{name:"الشيخ عبدالله", job:"مشرف عام"}],
             afternoon: [{name:"عمر بن الخطاب", time:"4:00 - 5:00"}],
             evening: [{name:"أبو بكر", time:"بعد المغرب"}]
         };
 
-        // تعبئة البيانات
-        siteData.news.forEach(n => document.getElementById('news-list').innerHTML += `<div class="card clickable"><strong>📅 ${n.date}</strong><br>${n.text}</div>`);
-        siteData.ranks.forEach(r => {
-            let list = r.students.map(s=>`<li>${s}</li>`).join('');
-            document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul>${list}</ul></div>`;
-        });
+        siteData.news.forEach(n => document.getElementById('news-list').innerHTML += `<div class="card clickable" onclick="toggleWinners(${n.id})"><strong>📅 ${n.date}</strong><br>${n.text}${n.winners.length > 0 ? `<div id="win-${n.id}" class="winner-list">الفائزون: ${n.winners.join(' - ')}</div>` : ''}</div>`);
+        function toggleWinners(id) { const el = document.getElementById(`win-${id}`); if(el) el.style.display = (el.style.display === 'block') ? 'none' : 'block'; }
         
-        function createTable(name, time) {
-            document.getElementById('schedule-display').innerHTML = `<h3>${name}</h3><table><tr><td>اليوم</td><td>${time}</td><td>حفظ</td></tr></table>`;
-        }
-        siteData.afternoon.forEach(r => {
-            const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name;
-            b.onclick=()=>createTable(r.name, r.time);
-            document.getElementById('ring-selectors-afternoon').appendChild(b);
-        });
-        siteData.evening.forEach(r => {
-            const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name;
-            b.onclick=()=>createTable(r.name, r.time);
-            document.getElementById('ring-selectors-evening').appendChild(b);
-        });
+        siteData.ranks.forEach(r => { let list = r.students.map(s=>`<li>${s}</li>`).join(''); document.getElementById('ranks-list').innerHTML += `<div class="card" style="border-right:4px solid var(--accent-color)"><strong>${r.ring}</strong><ul>${list}</ul></div>`; });
+
+        function createTable(name, time) { document.getElementById('schedule-display').innerHTML = `<h3>${name}</h3><table><tr><td>اليوم</td><td>${time}</td><td>حفظ ومراجعة</td></tr></table>`; }
+        siteData.afternoon.forEach(r => { const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name; b.onclick=()=>createTable(r.name, r.time); document.getElementById('ring-selectors-afternoon').appendChild(b); });
+        siteData.evening.forEach(r => { const b = document.createElement('button'); b.className='nav-btn'; b.innerText=r.name; b.onclick=()=>createTable(r.name, r.time); document.getElementById('ring-selectors-evening').appendChild(b); });
         siteData.teachers.forEach(t => document.getElementById('teachers-list').innerHTML += `<div class="card"><strong>${t.name}</strong><br>${t.job}</div>`);
 
-        // الآيات المتحركة
         const verses = ["﴿ إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ ﴾", "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾"];
         const vDisplay = document.getElementById('verse-display');
         function showV() { vDisplay.innerText = verses[Math.floor(Math.random()*verses.length)]; vDisplay.classList.add('visible'); setTimeout(()=>vDisplay.classList.remove('visible'),8000); }
