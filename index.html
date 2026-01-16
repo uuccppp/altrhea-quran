@@ -6,10 +6,13 @@
     <title>حلقات الثريا لتحفيظ القرآن الكريم</title>
     
     <link rel="icon" type="image/png" href="1768411699920.png">
-    
+    <link rel="apple-touch-icon" href="1768411699920.png">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -19,7 +22,7 @@
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
         <h1>حلقات الثريا</h1>
-        <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
+        <p>لتعليم القرآن الكريم حضرموت - غيل باوزير</p>
         
         <div id="verse-display" class="verse-ticker"></div>
     </header>
@@ -30,7 +33,9 @@
         
         <div id="section-home" class="page-section active">
             <h2 style="color:var(--primary-color)">📢 آخر الأخبار</h2>
-            <div id="news-list"></div> <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
+            <div id="news-list"></div>
+
+            <h2 style="color:var(--primary-color); margin-top:25px;">❓ السؤال الأسبوعي</h2>
             <div class="card" style="border-right: 4px solid var(--accent-color);">
                 <p><strong>سؤال الأسبوع:</strong> ما هي السورة التي تسمى "سنام القرآن"؟</p>
                 <div style="background: rgba(251, 191, 36, 0.1); padding: 10px; border-radius: 8px;">
@@ -42,16 +47,16 @@
         <div id="section-student" class="page-section">
             <h2 style="color:var(--primary-color)">📖 ركن الطالب</h2>
             
-            <div class="quran-tabs" style="display:flex; gap:10px; margin-bottom:15px; overflow-x:auto;">
-                <button class="quran-tab nav-btn active" onclick="openQuranTab('reader')">📜 المصحف</button>
-                <button class="quran-tab nav-btn" onclick="openQuranTab('tools')">🧮 أدوات الختم</button>
-                <button class="quran-tab nav-btn" onclick="openQuranTab('quiz')">🧠 اختبر حفظي</button>
+            <div class="quran-tabs">
+                <button class="quran-tab active" onclick="openQuranTab('reader')">📜 المصحف</button>
+                <button class="quran-tab" onclick="openQuranTab('tools')">🧮 أدوات الختم</button>
+                <button class="quran-tab" onclick="openQuranTab('quiz')">🧠 اختبر حفظي</button>
             </div>
 
             <div id="tab-reader" class="quran-content-section active">
                 <div id="surah-list-view">
-                    <input type="text" id="quran-search" class="search-box" placeholder="🔍 ابحث عن سورة..." onkeyup="searchQuran()">
-                    <div id="quran-loader" style="text-align:center; color:var(--primary-color);">جاري تحميل القائمة... ⏳</div>
+                    <input type="text" id="quran-search" class="search-box" placeholder="🔍 ابحث عن سورة أو آية..." onkeyup="searchQuran()">
+                    <div id="quran-loader" style="text-align:center; color:var(--primary-color);">جاري تحميل المصحف من الملف... ⏳</div>
                     <div id="surah-list-container"></div>
                 </div>
                 <div id="surah-reader-view">
@@ -62,20 +67,20 @@
                 </div>
             </div>
 
-            <div id="tab-tools" class="quran-content-section" style="display:none;">
+            <div id="tab-tools" class="quran-content-section">
                 <button class="accordion-btn">🚀 خطة ختمي (بناءً على جهدي) <span>▼</span></button>
                 <div class="accordion-panel">
                     <div style="padding: 15px 0;">
                         <p>أخبرنا بجهدك اليومي، وسنخبرك متى تختم.</p>
                         <div id="calc-step-1">
                             <p><strong>1️⃣ كم يوماً تحفظ في الأسبوع؟</strong></p>
-                            <div id="days-options" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
+                            <div id="days-options"></div>
                         </div>
-                        <div id="calc-step-2" style="display:none; margin-top:15px;">
+                        <div id="calc-step-2" style="display:none;">
                             <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
-                            <div id="amount-options" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
-                            <div id="custom-amount-div" style="display:none; margin-top:10px;">
-                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات">
+                            <div id="amount-options"></div>
+                            <div id="custom-amount-div" style="display:none;">
+                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
                                 <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
                             </div>
                         </div>
@@ -95,74 +100,108 @@
                         <div class="calc-input-group"><label>🗓️ الختم بالأيام:</label><select id="target-days" class="form-select"></select></div>
                         <div class="calc-input-group"><label>📅 الختم بالأشهر:</label><select id="target-months" class="form-select"></select></div>
                         <div class="calc-input-group"><label>📆 الختم بالسنوات:</label><select id="target-years" class="form-select"></select></div>
+                        <div class="calc-input-group"><label>⏩ تخطي أجزاء (تم إنجازها):</label><select id="skipped-parts" class="form-select"><option value="0">لا يوجد (سأبدأ من الصفر)</option></select></div>
                         <button class="nav-btn active" style="width:100%; padding:15px;" onclick="calculateReversePlan()">✨ احسب خطتي ✨</button>
                         <div id="reverse-calc-result" class="calc-result"></div>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-quiz" class="quran-content-section" style="display:none;">
+            <div id="tab-quiz" class="quran-content-section">
                 <div class="card" style="border-top: 4px solid var(--accent-color);">
                     <h3>⚙️ إعدادات الاختبار</h3>
+                    
                     <div class="calc-input-group">
                         <label>1️⃣ اختر الجزء:</label>
-                        <select id="quiz-juz" class="form-select" onchange="updateQuizSurahs()"></select>
+                        <select id="quiz-juz" class="form-select" onchange="updateQuizSurahs()">
+                            </select>
                     </div>
+
                     <div class="calc-input-group">
-                        <label>2️⃣ نوع السؤال:</label>
+                        <label>2️⃣ اختر السورة (اختياري):</label>
+                        <select id="quiz-surah" class="form-select">
+                            <option value="0">كل سور الجزء</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-input-group">
+                        <label>3️⃣ نوع السؤال:</label>
                         <select id="quiz-type" class="form-select">
                             <option value="complete">أكمل الآية (كتابة أو تسميع)</option>
                             <option value="surah_name">ما اسم السورة؟</option>
+                            <option value="ayah_num">ما رقم الآية؟</option>
+                            <option value="which_juz">في أي جزء هذه الآية؟</option>
                         </select>
                     </div>
+
                     <button class="nav-btn active" style="width:100%" onclick="generateQuestion()">🚀 ابدأ السؤال</button>
                 </div>
+
                 <div id="quiz-area" class="card" style="display:none; text-align:center; animation: fadeIn 0.5s;">
                     <p style="color:#666; font-size:0.9rem;">السؤال:</p>
                     <div id="question-text" class="quran-verse" style="margin-bottom:20px; font-size:1.6rem;"></div>
+                    
                     <button id="show-answer-btn" class="nav-btn" onclick="showAnswer()">👁️ عرض الإجابة</button>
+                    
                     <div id="answer-box" style="display:none; margin-top:20px; background:#f0fdf4; padding:15px; border-radius:10px; border:1px solid var(--primary-color);">
                         <p><strong>الإجابة الصحيحة:</strong></p>
                         <div id="answer-text" style="font-size:1.3rem; line-height:1.8; color:var(--text-dark);"></div>
                         <hr style="margin:10px 0; opacity:0.2;">
+                        <p style="font-size:0.9rem; color:gray;" id="answer-details"></p>
                         <button class="nav-btn" style="margin-top:10px; background:var(--accent-color); color:black;" onclick="generateQuestion()">سؤال تالي 🔄</button>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
 
         <div id="section-ranks" class="page-section">
             <h2 style="color:var(--primary-color)">🏆 أوائل الحلقات</h2>
-            <div id="ranks-list"></div> </div>
+            <div id="ranks-list"></div>
+        </div>
 
         <div id="section-schedule" class="page-section">
             <h2 style="color:var(--primary-color)">📅 الجداول الدراسية</h2>
-            <div id="schedule-display"></div> <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
+            
+            <div class="group-title">☀️ حلقات العصر (4:00م - 5:00م)</div>
+            <div id="ring-selectors-afternoon" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
+            <div class="group-title">🌙 حلقات بعد المغرب (من المغرب إلى العشاء)</div>
+            <div id="ring-selectors-evening" style="display:flex; gap:10px; margin:10px 0; flex-wrap:wrap;"></div>
+
+            <div id="schedule-display"></div>
+            
+            <h2 style="color:#ef4444; margin-top:25px;">🏖️ أوقات الإجازات</h2>
             <div class="card" style="border-right-color: #ef4444;">
                 <ul style="margin:0; padding-right:20px;">
                     <li>يوم الجمعة (إجازة أسبوعية)</li>
                     <li>عيد الأضحى وعيد الفطر</li>
-                    <li>قبل الاختبارات المدرسية بأسبوع</li>
+                    <li>قبل الاختبارات المدرسية (الفصلية والنهائية) بأسبوع</li>
                 </ul>
             </div>
         </div>
 
         <div id="section-teachers" class="page-section">
             <h2 style="color:var(--primary-color)">👨‍🏫 قائمة المعلمين</h2>
-            <div id="teachers-list"></div> </div>
+            <div id="teachers-list"></div>
+        </div>
 
         <div id="section-about" class="page-section">
             <h2 style="color:var(--primary-color)">🕌 من نحن</h2>
+            
             <div class="card poetic-text">
                 نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
                 حيث لا يُحفظ القرآن بالألسنة فقط،<br>
-                بل تُربّى به القلوب، وتُهذَّب النفوس.<br><br>
-                <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span>
+                بل تُربّى به القلوب، وتُهذَّب النفوس، وتُبنى الأرواح.<br><br>
+                <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
+                ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
             </div>
+
             <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
             <div class="contact-grid">
                 <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp"><span class="contact-icon">💬</span><span>واتساب</span></a>
-                <a href="#" class="contact-box bg-insta"><span class="contact-icon">📸</span><span>انستقرام</span></a>
+                <a href="https://www.instagram.com/pb8.c?igsh=MWJ3YWNobGk1NmdtZQ==" target="_blank" class="contact-box bg-insta"><span class="contact-icon">📸</span><span>انستقرام</span></a>
+                <a href="tel:+967777006546" class="contact-box bg-call"><span class="contact-icon">📞</span><span>اتصال هاتفي</span></a>
+                <a href="https://maps.app.goo.gl/dRRYPVJyqh2NKMg86" target="_blank" class="contact-box bg-map"><span class="contact-icon">📍</span><span>موقع المسجد</span></a>
             </div>
         </div>
 
@@ -178,5 +217,10 @@
     <footer>جميع الحقوق محفوظة © 2026</footer>
 
     <script src="script.js"></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
