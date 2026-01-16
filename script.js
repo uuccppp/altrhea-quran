@@ -309,3 +309,152 @@ function showRandomVerse() {
 }
 showRandomVerse();
 setInterval(showRandomVerse, 38000);
+// ==========================================
+// 🧠 نظام الاختبار الذكي (بدون ملفات إضافية)
+// ==========================================
+
+// خريطة بدايات الأجزاء (رقم الجزء: [رقم السورة, رقم الآية])
+// هذا "المخ" الذي يعرف أين يبدأ كل جزء
+const JUZ_START = {
+    1: [1,1], 2: [2,142], 3: [2,253], 4: [3,93], 5: [4,24], 6: [4,148],
+    7: [5,82], 8: [6,111], 9: [7,88], 10: [8,41], 11: [9,93], 12: [11,6],
+    13: [12,53], 14: [15,1], 15: [17,1], 16: [18,75], 17: [21,1], 18: [23,1],
+    19: [25,21], 20: [27,56], 21: [29,46], 22: [33,31], 23: [36,28], 24: [39,32],
+    25: [41,47], 26: [46,1], 27: [51,31], 28: [58,1], 29: [67,1], 30: [78,1]
+};
+
+let currentQuizAnswer = {}; // لتخزين الإجابة الحالية
+
+// 1. تهيئة القوائم عند التحميل
+function initQuiz() {
+    const juzSelect = document.getElementById('quiz-juz');
+    if(!juzSelect) return; // حماية
+    juzSelect.innerHTML = '<option value="0">-- اختر الجزء --</option>';
+    for(let i=1; i<=30; i++) {
+        let op = document.createElement('option');
+        op.value = i;
+        op.innerText = `الجزء ${i}`;
+        juzSelect.appendChild(op);
+    }
+}
+// استدعاء التهيئة بعد تحميل الصفحة بقليل للتأكد من وجود العناصر
+setTimeout(initQuiz, 1000);
+
+// 2. تحديث قائمة السور عند اختيار الجزء
+function updateQuizSurahs() {
+    if (!window.quranData) {
+        alert("يرجى الانتظار، جاري تحميل المصحف...");
+        loadQuranData(); // محاولة تحميل إذا لم يكن محملاً
+        return;
+    }
+    
+    const juz = parseInt(document.getElementById('quiz-juz').value);
+    const surahSelect = document.getElementById('quiz-surah');
+    surahSelect.innerHTML = '<option value="0">كل سور الجزء</option>';
+    
+    if (juz === 0) return;
+
+    // منطق ذكي لمعرفة سور الجزء
+    // نأخذ بداية هذا الجزء، وبداية الجزء التالي، ونحضر السور بينهما
+    let startSurah = JUZ_START[juz][0];
+    let endSurah = (juz === 30) ? 114 : JUZ_START[juz+1][0];
+
+    for(let i = startSurah; i <= endSurah; i++) {
+        let s = window.quranData[i];
+        if(s) {
+            let op = document.createElement('option');
+            op.value = i;
+            op.innerText = `${i}. سورة ${s.name}`;
+            surahSelect.appendChild(op);
+        }
+    }
+}
+
+// 3. المحرك الرئيسي: توليد السؤال
+function generateQuestion() {
+    if (!window.quranData) { alert("تأكد من تحميل المصحف أولاً (افتح تبويب المصحف مرة واحدة)"); return; }
+    
+    const juz = parseInt(document.getElementById('quiz-juz').value);
+    const targetSurah = parseInt(document.getElementById('quiz-surah').value);
+    const type = document.getElementById('quiz-type').value;
+
+    if (juz === 0) { alert("الرجاء اختيار الجزء أولاً"); return; }
+
+    // تجميع الآيات المتاحة للاختيار
+    let candidates = [];
+    
+    // تحديد نطاق البحث
+    let startS = JUZ_START[juz][0];
+    let startA = JUZ_START[juz][1];
+    let endS = (juz === 30) ? 114 : JUZ_START[juz+1][0];
+    
+    // إذا اختار سورة محددة، نحصر النطاق فيها
+    if (targetSurah !== 0) {
+        startS = targetSurah;
+        endS = targetSurah;
+        startA = 1; // من أول السورة
+    }
+
+    // تعبئة "سلة" الآيات
+    for (let s = startS; s <= endS; s++) {
+        let surahObj = window.quranData[s];
+        if (!surahObj) continue;
+        
+        // المرور على آيات السورة
+        surahObj.ayahs.forEach(ay => {
+            // فلترة دقيقة للأجزاء (لأن بعض السور مقسومة بين جزئين)
+            // إذا كنا في أول سورة في الجزء، نبدأ من الآية المحددة في الخريطة
+            if (s === JUZ_START[juz][0] && ay.num < JUZ_START[juz][1]) return;
+            // إذا كنا في الجزء التالي (تجاوزنا الحد)، نتوقف (للحالات العامة)
+            if (juz < 30 && s === JUZ_START[juz+1][0] && ay.num >= JUZ_START[juz+1][1]) return;
+
+            candidates.push({
+                surahName: surahObj.name,
+                surahNum: s,
+                ayahNum: ay.num,
+                text: ay.text,
+                nextAyah: surahObj.ayahs.find(a => a.num === ay.num + 1)?.text || "نهاية السورة"
+            });
+        });
+    }
+
+    if (candidates.length === 0) { alert("حدث خطأ في تحديد الآيات"); return; }
+
+    // اختيار آية عشوائية
+    let randomAyah = candidates[Math.floor(Math.random() * candidates.length)];
+    
+    // تجهيز السؤال والجواب
+    let qText = "";
+    let aText = "";
+    let details = `سورة ${randomAyah.surahName} - آية ${randomAyah.ayahNum}`;
+
+    if (type === 'complete') {
+        qText = `أكمل الآية التي تلي:<br><br> <span style="color:var(--primary-color)">${randomAyah.text}</span>`;
+        aText = randomAyah.nextAyah;
+    } else if (type === 'surah_name') {
+        qText = `هذه الآية في أي سورة؟<br><br> <span style="color:var(--primary-color)">${randomAyah.text}</span>`;
+        aText = `سورة ${randomAyah.surahName}`;
+    } else if (type === 'ayah_num') {
+        qText = `ما هو رقم هذه الآية؟<br><br> <span style="color:var(--primary-color)">${randomAyah.text}</span>`;
+        aText = `الآية رقم ${randomAyah.ayahNum}`;
+    } else if (type === 'which_juz') {
+        qText = `في أي جزء تقع هذه الآية؟<br><br> <span style="color:var(--primary-color)">${randomAyah.text}</span> <br> <small>(سورة ${randomAyah.surahName})</small>`;
+        aText = `الجزء ${juz}`; // نعرف الجزء لأنه اختاره
+    }
+
+    // عرض في الشاشة
+    document.getElementById('quiz-area').style.display = 'block';
+    document.getElementById('question-text').innerHTML = qText;
+    document.getElementById('answer-box').style.display = 'none';
+    document.getElementById('show-answer-btn').style.display = 'inline-block';
+    
+    // حفظ الإجابة
+    currentQuizAnswer = { main: aText, det: details };
+}
+
+function showAnswer() {
+    document.getElementById('show-answer-btn').style.display = 'none';
+    document.getElementById('answer-box').style.display = 'block';
+    document.getElementById('answer-text').innerHTML = currentQuizAnswer.main;
+    document.getElementById('answer-details').innerText = currentQuizAnswer.det;
+}
