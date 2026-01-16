@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حلقات الثريا لتحفيظ القرآن الكريم</title>
+    <title>حلقات الثثريا لتحفيظ القرآن الكريم</title>
     
     <link rel="icon" type="image/png" href="1768411699920.png">
     <link rel="apple-touch-icon" href="1768411699920.png">
@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -22,7 +21,7 @@
             <video autoplay muted loop playsinline><source src="1768472913710.mp4" type="video/mp4"></video>
         </div>
         <h1>حلقات الثريا</h1>
-        <p>لتعليم القرآن الكريم حضرموتت - غيل باوزير</p>
+        <p>لتحفيظ القرآن الكريم - غيل باوزير</p>
         
         <div id="verse-display" class="verse-ticker"></div>
     </header>
@@ -80,7 +79,7 @@
                             <p><strong>2️⃣ كم مقدار الحفظ اليومي؟</strong></p>
                             <div id="amount-options"></div>
                             <div id="custom-amount-div" style="display:none;">
-                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات (مثلاً 1.5)">
+                                <input type="number" id="custom-pages" class="form-input" placeholder="اكتب عدد الصفحات">
                                 <button class="nav-btn" style="margin-top:10px; width:100%" onclick="calculatePlan(document.getElementById('custom-pages').value)">احسب النتيجة 🧮</button>
                             </div>
                         </div>
@@ -110,20 +109,16 @@
             <div id="tab-quiz" class="quran-content-section">
                 <div class="card" style="border-top: 4px solid var(--accent-color);">
                     <h3>⚙️ إعدادات الاختبار</h3>
-                    
                     <div class="calc-input-group">
                         <label>1️⃣ اختر الجزء:</label>
-                        <select id="quiz-juz" class="form-select" onchange="updateQuizSurahs()">
-                            </select>
+                        <select id="quiz-juz" class="form-select" onchange="updateQuizSurahs()"></select>
                     </div>
-
                     <div class="calc-input-group">
                         <label>2️⃣ اختر السورة (اختياري):</label>
                         <select id="quiz-surah" class="form-select">
                             <option value="0">كل سور الجزء</option>
                         </select>
                     </div>
-
                     <div class="calc-input-group">
                         <label>3️⃣ نوع السؤال:</label>
                         <select id="quiz-type" class="form-select">
@@ -133,16 +128,12 @@
                             <option value="which_juz">في أي جزء هذه الآية؟</option>
                         </select>
                     </div>
-
                     <button class="nav-btn active" style="width:100%" onclick="generateQuestion()">🚀 ابدأ السؤال</button>
                 </div>
-
                 <div id="quiz-area" class="card" style="display:none; text-align:center; animation: fadeIn 0.5s;">
                     <p style="color:#666; font-size:0.9rem;">السؤال:</p>
                     <div id="question-text" class="quran-verse" style="margin-bottom:20px; font-size:1.6rem;"></div>
-                    
                     <button id="show-answer-btn" class="nav-btn" onclick="showAnswer()">👁️ عرض الإجابة</button>
-                    
                     <div id="answer-box" style="display:none; margin-top:20px; background:#f0fdf4; padding:15px; border-radius:10px; border:1px solid var(--primary-color);">
                         <p><strong>الإجابة الصحيحة:</strong></p>
                         <div id="answer-text" style="font-size:1.3rem; line-height:1.8; color:var(--text-dark);"></div>
@@ -152,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
         <div id="section-ranks" class="page-section">
             <h2 style="color:var(--primary-color)">🏆 أوائل الحلقات</h2>
@@ -187,7 +178,6 @@
 
         <div id="section-about" class="page-section">
             <h2 style="color:var(--primary-color)">🕌 من نحن</h2>
-            
             <div class="card poetic-text">
                 نحن حلقات الثريا لتحفيظ القرآن الكريم،<br>
                 حيث لا يُحفظ القرآن بالألسنة فقط،<br>
@@ -195,7 +185,6 @@
                 <span class="quran-verse">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span><br><br>
                 ومن القرآن… نبدأ، وبه… نرتقي، وعليه… نلقى الله.
             </div>
-
             <h2 style="color:var(--primary-color)">📞 تواصل معنا</h2>
             <div class="contact-grid">
                 <a href="https://wa.me/967777006546" target="_blank" class="contact-box bg-whatsapp"><span class="contact-icon">💬</span><span>واتساب</span></a>
@@ -217,11 +206,5 @@
     <footer>جميع الحقوق محفوظة © 2026</footer>
 
     <script src="script.js"></script>
-    <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
 </body>
-                </html>
-
+</html>
